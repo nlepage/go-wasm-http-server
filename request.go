@@ -26,5 +26,14 @@ func (r *Request) HTTPRequest() (*http.Request, error) {
 		return nil, err
 	}
 
+	headersIt := rValue.Get("headers").Call("entries")
+	for {
+		v := headersIt.Call("next")
+		if v.Get("done").Bool() {
+			break
+		}
+		req.Header.Set(v.Index(0).String(), v.Index(1).String())
+	}
+
 	return req, nil
 }
