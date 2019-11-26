@@ -24,9 +24,7 @@ yarn add go-wasm-http-server
 
 ## Usage
 
-```sh
-usage
-```
+TODO
 
 ## Author
 
