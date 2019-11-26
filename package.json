@@ -1,0 +1,9 @@
+{
+  "name": "go-wasm-http-server",
+  "version": "0.1.0",
+  "description": "WebAssembly Go HTTP Server embedded in a ServiceWorker",
+  "main": "index.js",
+  "repository": "https://github.com/nlepage/go-wasm-http-server",
+  "author": "Nicolas Lepage <19571875+nlepage@users.noreply.github.com>",
+  "license": "Apache-2.0"
+}
