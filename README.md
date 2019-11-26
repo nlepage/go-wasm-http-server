@@ -14,7 +14,7 @@
 
 > WebAssembly Go HTTP Server embedded in a ServiceWorker
 
-### ✨ [Demo](https://nlepage.github.io/go-wasm-http-server/demo/)
+### ✨ [Demo](https://nlepage.github.io/go-wasm-http-server/demo)
 
 ## Install
 
