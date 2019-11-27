@@ -48,7 +48,11 @@ func (rw *ResponseWriter) JSResponse() js.Value {
 	}
 
 	if len(rw.header) != 0 {
-		init.Set("headers", map[string][]string(rw.header))
+		headers := make(map[string]interface{}, len(rw.header))
+		for k := range rw.header {
+			headers[k] = rw.header.Get(k)
+		}
+		init.Set("headers", headers)
 	}
 
 	jsBody := js.Global().Get("Uint8Array").New(rw.buf.Len())

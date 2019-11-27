@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"syscall/js"
 
 	"github.com/nlepage/go-wasm-http-server/internal/whutil"
@@ -14,6 +15,22 @@ func Serve(handler http.Handler) func() {
 	h := handler
 	if h == nil {
 		h = http.DefaultServeMux
+	}
+
+	path := os.Getenv("WASMHTTP_PATH")
+	if !strings.HasSuffix(path, "/") {
+		path = path + "/"
+	}
+
+	if path != "" {
+		prefix := os.Getenv("WASMHTTP_PATH")
+		for strings.HasSuffix(prefix, "/") {
+			prefix = strings.TrimSuffix(prefix, "/")
+		}
+
+		mux := http.NewServeMux()
+		mux.Handle(path, http.StripPrefix(prefix, h))
+		h = mux
 	}
 
 	cb := js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
@@ -29,14 +46,14 @@ func Serve(handler http.Handler) func() {
 				r := recover()
 				if r != nil {
 					if err, ok := r.(error); ok {
-						fmt.Fprintf("wasmhttp: panic: %+v", err)
+						fmt.Printf("wasmhttp: panic: %+v\n", err)
 					} else {
-						fmt.Fprintf("wasmhttp: panic: %v", r)
+						fmt.Printf("wasmhttp: panic: %v\n", r)
 					}
 
 					res := whutil.NewResponseWriter()
 					res.WriteHeader(500)
-					resolveRes(res)
+					resolveRes(res.JSResponse())
 				}
 			}()
 
@@ -47,7 +64,7 @@ func Serve(handler http.Handler) func() {
 
 			res := whutil.NewResponseWriter()
 
-			handler.ServeHTTP(res, req)
+			h.ServeHTTP(res, req)
 
 			resolveRes(res.JSResponse())
 		}()
