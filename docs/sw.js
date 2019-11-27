@@ -4,6 +4,6 @@ importScripts(
 )
 
 wasmhttp.serve({
-  wasm: 'test.wasm',
-  base: '/test',
+  wasm: 'api.wasm',
+  base: '/api',
 })
