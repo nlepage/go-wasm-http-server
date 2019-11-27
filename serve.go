@@ -8,7 +8,7 @@ import (
 	"github.com/nlepage/go-wasm-http-server/internal/whutil"
 )
 
-// Serve serves HTTP requests using handler or http.DefaultServeMux if handler is nil
+// Serve serves HTTP requests using handler or http.DefaultServeMux if handler is nil.
 func Serve(handler http.Handler) func() {
 	h := handler
 	if h == nil {
