@@ -3,6 +3,8 @@ importScripts(
   'https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@latest/index.js',
 )
 
+console.log('scope', registration.scope)
+
 addEventListener('install', event => {
   console.log('install!')
   wasmhttp.serve({
