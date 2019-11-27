@@ -55,7 +55,7 @@ func Serve(handler http.Handler) func() {
 		return res.Value()
 	})
 
-	js.Global().Get("wasmhttp").Call("RegisterHandler", os.Getenv("WASMHTTP_HANDLER_ID"), cb)
+	js.Global().Get("wasmhttp").Call("registerHandler", os.Getenv("WASMHTTP_HANDLER_ID"), cb)
 
 	return cb.Release
 }
