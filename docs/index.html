@@ -3,7 +3,7 @@
   <head>
     <title>go-wasm-http-server demo</title>
     <script>
-      function hello() {
+      async function hello() {
         res=await fetch('api/hello', {
           method: 'POST',
           headers: {
@@ -11,6 +11,8 @@
           },
           body: JSON.stringify({ name: document.querySelector("#name").value })
         })
+        const { message } = await res.json()
+        alert(message)
       }
     </script>
   </head>
