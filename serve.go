@@ -1,6 +1,7 @@
 package wasmhttp
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"syscall/js"
@@ -24,9 +25,23 @@ func Serve(handler http.Handler) func() {
 		})
 
 		go func() {
+			defer func() {
+				r := recover()
+				if r != nil {
+					if err, ok := r.(error); ok {
+						fmt.Fprintf("wasmhttp: panic: %+v", err)
+					} else {
+						fmt.Fprintf("wasmhttp: panic: %v", r)
+					}
+
+					res := whutil.NewResponseWriter()
+					res.WriteHeader(500)
+					resolveRes(res)
+				}
+			}()
+
 			req, err := jsReq.HTTPRequest()
 			if err != nil {
-				//FIXME reject
 				panic(err)
 			}
 
