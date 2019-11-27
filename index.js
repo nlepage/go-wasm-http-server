@@ -1,7 +1,3 @@
-addEventListener('activate', event => {
-  event.waitUntil(clients.claim())
-})
-
 let nextHandlerId = 1
 const handlerResolvers = {}
 
