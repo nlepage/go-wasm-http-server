@@ -1,3 +1,7 @@
+addEventListener('activate', event => {
+  event.waitUntil(clients.claim())
+})
+
 let nextHandlerId = 1
 const handlerResolvers = {}
 
@@ -27,10 +31,6 @@ self.wasmhttp = {
   serve: async ({ wasm, base } = {}) => {
     try {
       if (!wasm) throw TypeError('options.wasm must be defined')
-
-      addEventListener('activate', event => {
-        event.waitUntil(clients.claim())
-      })
 
       const handlerId = `${nextHandlerId++}`
       const handler = new Promise(resolve => handlerResolvers[handlerId] = resolve)
