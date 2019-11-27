@@ -24,7 +24,7 @@ const trimEnd = (s, c) => {
 }
 
 self.wasmhttp = {
-  serve: async ({ wasm, base } = {}) => {
+  serve: ({ wasm, base } = {}) => {
     try {
       if (!wasm) throw TypeError('options.wasm must be defined')
 
