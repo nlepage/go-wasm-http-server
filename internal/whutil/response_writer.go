@@ -1,4 +1,4 @@
-package wasmhttp
+package whutil
 
 import (
 	"bytes"

@@ -26,6 +26,14 @@ yarn add go-wasm-http-server
 
 TODO
 
+## Why?
+
+TODO
+
+## How?
+
+TODO
+
 ## Author
 
 👤 **Nicolas Lepage**
