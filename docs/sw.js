@@ -9,6 +9,7 @@ addEventListener('install', event => {
     wasm: 'api.wasm',
     base: '/api',
   })
+  skipWaiting()
 })
 
 addEventListener('activate', event => {
