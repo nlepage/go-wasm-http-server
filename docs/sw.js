@@ -4,6 +4,7 @@ importScripts(
 )
 
 addEventListener('install', () => {
+  console.log('install!')
   wasmhttp.serve({
     wasm: 'api.wasm',
     base: '/api',
@@ -11,4 +12,11 @@ addEventListener('install', () => {
   skipWaiting()
 })
 
-addEventListener('activate', event => event.waitUntil(clients.claim()))
+addEventListener('activate', event => {
+  console.log('activate!')
+  event.waitUntil(clients.claim())
+})
+
+addEventListener('fetch', () => {
+  console.log('fetch!')
+})
