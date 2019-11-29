@@ -20,13 +20,22 @@
     <label for="name">Name : </label><input id="name" value="World">
     <button onclick="hello()">Hello</button>
     <script>
-      (async () => {
+      const startWasm = async (wasm, { scope, base = '' } = {}) => {
         try {
-          await navigator.serviceWorker.register('sw.js')
+          const options = {}
+          if (scope) options.scope = scope
+          const registration = await navigator.serviceWorker.register('sw.js', options)
+          await navigator.serviceWorker.ready
+          registration.active.postMessage({
+            type: 'startWasm',
+            wasm,
+            base,
+          })
         } catch (e) {
           console.error(e)
         }
-      })()
+      }
+      startWasm('api.wasm')
     </script>
   </body>
 </html>

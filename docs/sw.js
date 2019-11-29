@@ -1,15 +1,12 @@
-importScripts(
-  'https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@96677e251874f074906c61ccebd283c63cdec54d/lib/wasm_exec/wasm_exec.js',
-  'https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@96677e251874f074906c61ccebd283c63cdec54d/index.js',
-)
+importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.13.4/misc/wasm/wasm_exec.js')
 
-addEventListener('install', () => {
+addEventListener('install', (event) => {
   console.log('install!')
-  wasmhttp.serve({
-    wasm: 'api.wasm',
-    base: '/api',
-  })
-  skipWaiting()
+  // wasmhttp.serve({
+  //   wasm: 'api.wasm',
+  //   base: '/api',
+  // })
+  event.waitUntil(skipWaiting())
 })
 
 addEventListener('activate', event => {
@@ -19,4 +16,8 @@ addEventListener('activate', event => {
 
 addEventListener('fetch', () => {
   console.log('fetch!')
+})
+
+addEventListener('message', ({ data }) => {
+  console.log('message', data)
 })
