@@ -38,9 +38,16 @@ self.wasmhttp = {
   },
 }
 
-addEventListener('activate', event => event.waitUntil(clients.claim()))
+console.log('aha!')
+
+addEventListener('activate', event => {
+  console.log('activate!')
+  event.waitUntil(clients.claim())
+})
 
 addEventListener('message', async ({ data }) => {
+  console.log('message!', data)
+
   if (data.type !== 'wasmhttp.register') return
 
   const { wasm, base } = data
@@ -63,6 +70,8 @@ addEventListener('message', async ({ data }) => {
 })
 
 addEventListener('fetch', e => {
+  console.log('fetch')
+
   const { pathname } = new URL(e.request.url)
   const [, handler] = handlers.find(([path]) => pathname.startsWith(path)) || []
   if (!handler) return
