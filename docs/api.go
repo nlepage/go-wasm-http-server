@@ -8,6 +8,8 @@ import (
 	wasmhttp "github.com/nlepage/go-wasm-http-server"
 )
 
+var no = 1
+
 func main() {
 	http.HandleFunc("/hello", func(res http.ResponseWriter, req *http.Request) {
 		params := make(map[string]string)
@@ -16,10 +18,11 @@ func main() {
 		}
 
 		if err := json.NewEncoder(res).Encode(map[string]string{
-			"message": fmt.Sprintf("Hello %s!", params["name"]),
+			"message": fmt.Sprintf("Hello %s! (%d)", params["name"], no),
 		}); err != nil {
 			panic(err)
 		}
+		no++
 	})
 
 	wasmhttp.Serve(nil)
