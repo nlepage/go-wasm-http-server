@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	wasmhttp "github.com/nlepage/go-wasm-http-server"
 )
@@ -11,9 +12,10 @@ import (
 var no = 1
 
 func main() {
-	fmt.Println("Starting...")
-
 	http.HandleFunc("/hello", func(res http.ResponseWriter, req *http.Request) {
+		h, m, s := time.Now().Clock()
+		fmt.Printf("hello at %02d:%02d:%02d\n", h, m, s)
+
 		params := make(map[string]string)
 		if err := json.NewDecoder(req.Body).Decode(&params); err != nil {
 			panic(err)
@@ -29,7 +31,12 @@ func main() {
 
 	wasmhttp.Serve(nil)
 
-	fmt.Println("Started")
+	go func() {
+		for range time.Tick(time.Second) {
+			h, m, s := time.Now().Clock()
+			fmt.Printf("tick at %02d:%02d:%02d\n", h, m, s)
+		}
+	}()
 
 	select {}
 }

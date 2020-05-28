@@ -64,7 +64,7 @@ addEventListener('message', async ({ data }) => {
     startWasm(wasm, handlerId, path)
     running.add(key)
 
-  // FIXME try catch
+    // FIXME try catch
     handlers.push([path, await handler])
   }
 })
