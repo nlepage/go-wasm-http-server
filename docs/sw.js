@@ -1,1 +1,1 @@
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@d6c4e9ef12bc8ac614ab90e6fe7c4d5db1f868e2/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@254bd5e2ea5b84b4ed2918f8edc7981fb24b06ad/sw.js')
