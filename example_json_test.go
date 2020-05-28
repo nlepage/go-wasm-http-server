@@ -8,7 +8,7 @@ import (
 	wasmhttp "github.com/nlepage/go-wasm-http-server"
 )
 
-// Demostrates a simple hello JSON service.
+// Demonstrates a simple hello JSON service.
 func Example_json() {
 	http.HandleFunc("/hello", func(res http.ResponseWriter, req *http.Request) {
 		params := make(map[string]string)

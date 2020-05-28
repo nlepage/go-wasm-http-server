@@ -14,33 +14,35 @@ type ResponseWriter struct {
 }
 
 // NewResponseWriter creates a new ResponseWriter
-func NewResponseWriter() *ResponseWriter {
-	return &ResponseWriter{
+func NewResponseWriter() ResponseWriter {
+	return ResponseWriter{
 		header:     http.Header{},
 		buf:        bytes.NewBuffer(nil),
 		statusCode: 0,
 	}
 }
 
-var _ http.ResponseWriter = (*ResponseWriter)(nil)
+var _ http.ResponseWriter = ResponseWriter{}
 
 // Header implements http.ResponseWriter.Header
-func (rw *ResponseWriter) Header() http.Header {
+func (rw ResponseWriter) Header() http.Header {
 	return rw.header
 }
 
 // Write implements http.ResponseWriter.Write
-func (rw *ResponseWriter) Write(p []byte) (int, error) {
+func (rw ResponseWriter) Write(p []byte) (int, error) {
 	return rw.buf.Write(p)
 }
 
 // WriteHeader implements http.ResponseWriter.WriteHeader
-func (rw *ResponseWriter) WriteHeader(statusCode int) {
+func (rw ResponseWriter) WriteHeader(statusCode int) {
 	rw.statusCode = statusCode
 }
 
-// JSResponse builds and returns the equivalent JS Response
-func (rw *ResponseWriter) JSResponse() js.Value {
+var _ js.Wrapper = ResponseWriter{}
+
+// JSValue builds and returns the equivalent JS Response (implementing js.Wrapper)
+func (rw ResponseWriter) JSValue() js.Value {
 	init := js.Global().Get("Object").New()
 
 	if rw.statusCode != 0 {

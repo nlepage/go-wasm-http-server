@@ -34,42 +34,35 @@ func Serve(handler http.Handler) func() {
 	}
 
 	cb := js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
-		jsReq := whutil.Request(args[0])
+		jsReq := whutil.Request{args[0]}
 
-		var resolveRes func(interface{})
-		var res = whutil.NewPromise(func(resolve, _ func(interface{})) {
-			resolveRes = resolve
+		var res = whutil.NewPromise(func(resolve whutil.PromiseResolve, reject whutil.PromiseReject) {
+			go func() {
+				defer func() {
+					r := recover()
+					if r != nil {
+						if err, ok := r.(error); ok {
+							reject(fmt.Sprintf("wasmhttp: panic: %+v\n", err))
+						} else {
+							reject(fmt.Sprintf("wasmhttp: panic: %v\n", r))
+						}
+					}
+				}()
+
+				req, err := jsReq.HTTPRequest()
+				if err != nil {
+					panic(err)
+				}
+
+				res := whutil.NewResponseWriter()
+
+				h.ServeHTTP(res, req)
+
+				resolve(res)
+			}()
 		})
 
-		go func() {
-			defer func() {
-				r := recover()
-				if r != nil {
-					if err, ok := r.(error); ok {
-						fmt.Printf("wasmhttp: panic: %+v\n", err)
-					} else {
-						fmt.Printf("wasmhttp: panic: %v\n", r)
-					}
-
-					res := whutil.NewResponseWriter()
-					res.WriteHeader(500)
-					resolveRes(res.JSResponse())
-				}
-			}()
-
-			req, err := jsReq.HTTPRequest()
-			if err != nil {
-				panic(err)
-			}
-
-			res := whutil.NewResponseWriter()
-
-			h.ServeHTTP(res, req)
-
-			resolveRes(res.JSResponse())
-		}()
-
-		return res.Value()
+		return res
 	})
 
 	js.Global().Get("wasmhttp").Call("registerHandler", os.Getenv("WASMHTTP_HANDLER_ID"), cb)
