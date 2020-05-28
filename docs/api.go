@@ -11,6 +11,8 @@ import (
 var no = 1
 
 func main() {
+	fmt.Println("Starting...")
+
 	http.HandleFunc("/hello", func(res http.ResponseWriter, req *http.Request) {
 		params := make(map[string]string)
 		if err := json.NewDecoder(req.Body).Decode(&params); err != nil {
@@ -26,6 +28,8 @@ func main() {
 	})
 
 	wasmhttp.Serve(nil)
+
+	fmt.Println("Started")
 
 	select {}
 }
