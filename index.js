@@ -1,5 +1,5 @@
 window.wasmhttp = {
-  register: async (wasm, { scope, base = '', swUrl = 'sw.js', argv = [] } = {}) => {
+  register: async (wasm, { scope, base = '', swUrl = 'sw.js', args = [] } = {}) => {
     const options = {}
     if (scope) options.scope = scope
     //FIXME register once (beware of changing scope ?)
@@ -9,7 +9,7 @@ window.wasmhttp = {
       type: 'wasmhttp.register',
       wasm,
       base,
-      argv,
+      args,
     })
   }
 }
