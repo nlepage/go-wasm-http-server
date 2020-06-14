@@ -36,7 +36,7 @@ func Serve(handler http.Handler) func() {
 	cb := js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
 		jsReq := whutil.Request{args[0]}
 
-		var res = whutil.NewPromise(func(resolve whutil.PromiseResolve, reject whutil.PromiseReject) {
+		var resPromise = whutil.NewPromise(func(resolve whutil.PromiseResolve, reject whutil.PromiseReject) {
 			go func() {
 				defer func() {
 					r := recover()
@@ -62,7 +62,7 @@ func Serve(handler http.Handler) func() {
 			}()
 		})
 
-		return res
+		return resPromise
 	})
 
 	js.Global().Get("wasmhttp").Call("registerHandler", os.Getenv("WASMHTTP_HANDLER_ID"), cb)

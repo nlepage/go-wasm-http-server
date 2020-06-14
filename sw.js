@@ -78,5 +78,5 @@ addEventListener('fetch', e => {
   const [, handler] = handlers.find(([path]) => pathname.startsWith(path)) || []
   if (!handler) return
 
-  e.respondWith((handler)(e.request))
+  e.respondWith(handler(e.request))
 })
