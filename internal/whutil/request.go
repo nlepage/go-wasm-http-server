@@ -28,10 +28,11 @@ func (r Request) HTTPRequest() (*http.Request, error) {
 
 	headersIt := r.Get("headers").Call("entries")
 	for {
-		v := headersIt.Call("next")
-		if v.Get("done").Bool() {
+		e := headersIt.Call("next")
+		if e.Get("done").Bool() {
 			break
 		}
+		v := e.Get("value")
 		req.Header.Set(v.Index(0).String(), v.Index(1).String())
 	}
 
