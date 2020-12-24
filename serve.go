@@ -22,7 +22,7 @@ func Serve(handler http.Handler) func() {
 		path = path + "/"
 	}
 
-	if path != "" {
+	if path != "" { // FIXME always true since / suffix is added to path
 		prefix := os.Getenv("WASMHTTP_PATH")
 		for strings.HasSuffix(prefix, "/") {
 			prefix = strings.TrimSuffix(prefix, "/")

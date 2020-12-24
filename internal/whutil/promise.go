@@ -25,14 +25,29 @@ func NewPromise(cb func(resolve PromiseResolve, reject PromiseReject)) Promise {
 }
 
 // Await waits for the Promise to be resolved and returns the value
-func (p Promise) Await() js.Value {
-	ch := make(chan js.Value)
+func (p Promise) Await() (js.Value, error) {
+	resCh := make(chan js.Value)
 	var then js.Func
 	then = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
-		defer then.Release()
-		ch <- args[0]
+		resCh <- args[0]
 		return nil
 	})
-	p.Call("then", then)
-	return <-ch
+	defer then.Release()
+
+	errCh := make(chan error)
+	var catch js.Func
+	catch = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
+		errCh <- js.Error{args[0]}
+		return nil
+	})
+	defer catch.Release()
+
+	p.Call("then", then).Call("catch", catch)
+
+	select {
+	case res := <-resCh:
+		return res, nil
+	case err := <-errCh:
+		return js.Undefined(), err
+	}
 }
