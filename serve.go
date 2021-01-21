@@ -3,7 +3,6 @@ package wasmhttp
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
 	"syscall/js"
 
@@ -17,19 +16,14 @@ func Serve(handler http.Handler) func() {
 		h = http.DefaultServeMux
 	}
 
-	var path = os.Getenv("WASMHTTP_PATH")
-	if !strings.HasSuffix(path, "/") {
-		path = path + "/"
+	var prefix = js.Global().Get("wasmhttp").Get("path").String()
+	for strings.HasSuffix(prefix, "/") {
+		prefix = strings.TrimSuffix(prefix, "/")
 	}
 
-	if path != "" { // FIXME always true since / suffix is added to path
-		var prefix = os.Getenv("WASMHTTP_PATH")
-		for strings.HasSuffix(prefix, "/") {
-			prefix = strings.TrimSuffix(prefix, "/")
-		}
-
+	if prefix != "" {
 		var mux = http.NewServeMux()
-		mux.Handle(path, http.StripPrefix(prefix, h))
+		mux.Handle(prefix+"/", http.StripPrefix(prefix, h))
 		h = mux
 	}
 
@@ -64,7 +58,7 @@ func Serve(handler http.Handler) func() {
 		return resPromise
 	})
 
-	js.Global().Get("wasmhttp").Call("registerHandler", os.Getenv("WASMHTTP_HANDLER_ID"), cb)
+	js.Global().Get("wasmhttp").Call("setHandler", cb)
 
 	return cb.Release
 }
