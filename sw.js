@@ -1,12 +1,8 @@
 importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.15.7/misc/wasm/wasm_exec.js')
 
-// FIXME use an options object with { env, argv }
-const startWasm = async (wasm, WASMHTTP_HANDLER_ID, WASMHTTP_PATH, args) => {
+const startWasm = async (wasm, { env, args = [] }) => {
   const go = new Go()
-  go.env = {
-    WASMHTTP_HANDLER_ID,
-    WASMHTTP_PATH,
-  }
+  go.env = env
   go.argv = [wasm, ...args]
   const { instance } = await WebAssembly.instantiateStreaming(fetch(wasm), go.importObject)
   return go.run(instance)
@@ -63,7 +59,7 @@ addEventListener('message', async ({ data }) => {
     const handlerId = `${nextHandlerId++}`
     const handler = new Promise(resolve => handlerResolvers[handlerId] = resolve)
 
-    startWasm(wasm, handlerId, path, args)
+    startWasm(wasm, { env: { WASMHTTP_HANDLER_ID: handlerId, WASMHTTP_PATH: path }, args })
     running.add(key)
 
     // FIXME try catch
