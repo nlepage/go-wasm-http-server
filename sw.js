@@ -11,7 +11,7 @@ self.wasmhttp = {
   },
 }
 
-function registerWasmHTTPListener(wasm, base, args) {
+function registerWasmHTTPListener(wasm, base, args = []) {
   let path = new URL(registration.scope).pathname
   if (base && base !== '') path = `${trimEnd(path, '/')}/${trimStart(base, '/')}`
 
