@@ -2,16 +2,15 @@
 <html>
   <head>
     <title>go-wasm-http-server demo</title>
-    <script src="https://raw.githubusercontent.com/nlepage/go-wasm-http-server/master/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@254bd5e2ea5b84b4ed2918f8edc7981fb24b06ad/index.js"></script>
     <script>
       async function hello() {
-        const name = document.querySelector("#name").value
-        const res = await fetch('api/hello', {
+        res = await fetch('api/hello', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ name })
+          body: JSON.stringify({ name: document.querySelector("#name").value })
         })
         const { message } = await res.json()
         alert(message)
@@ -19,7 +18,7 @@
     </script>
   </head>
   <body>
-    <label for="name">Name: </label><input id="name" value="World">
+    <label for="name">Name : </label><input id="name" value="World">
     <button onclick="hello()">Hello</button>
     <script>
       wasmhttp.register('api.wasm', { base: 'api' })
