@@ -1,3 +1,3 @@
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@3c63741d6a01f08e87c148a45b2032e25f00f9af/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@048825e2c7dd6b9dcfe3462105f4364ffc70663c/sw.js')
 
 registerWasmHTTPListener('api.wasm')
