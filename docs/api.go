@@ -9,6 +9,8 @@ import (
 )
 
 func main() {
+	defer fmt.Println("api stopping...")
+
 	http.HandleFunc("/hello", func(res http.ResponseWriter, req *http.Request) {
 		params := make(map[string]string)
 		if err := json.NewDecoder(req.Body).Decode(&params); err != nil {
