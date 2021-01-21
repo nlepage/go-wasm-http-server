@@ -2,8 +2,9 @@
 <html>
   <head>
     <title>go-wasm-http-server demo</title>
-    <script src="https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@latest/index.js"></script>
     <script>
+      navigator.serviceWorker.register('sw.js')
+
       async function hello() {
         res = await fetch('api/hello', {
           method: 'POST',
@@ -20,8 +21,5 @@
   <body>
     <label for="name">Name : </label><input id="name" value="World">
     <button onclick="hello()">Hello</button>
-    <script>
-      wasmhttp.register('api.wasm', { base: 'api' })
-    </script>
   </body>
 </html>

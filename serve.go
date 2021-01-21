@@ -1,6 +1,7 @@
 package wasmhttp
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -12,35 +13,34 @@ import (
 
 // Serve serves HTTP requests using handler or http.DefaultServeMux if handler is nil.
 func Serve(handler http.Handler) func() {
-	h := handler
+	var h = handler
 	if h == nil {
 		h = http.DefaultServeMux
 	}
 
-	path := os.Getenv("WASMHTTP_PATH")
+	var path = os.Getenv("WASMHTTP_PATH")
 	if !strings.HasSuffix(path, "/") {
 		path = path + "/"
 	}
 
 	if path != "" { // FIXME always true since / suffix is added to path
-		prefix := os.Getenv("WASMHTTP_PATH")
+		var prefix = os.Getenv("WASMHTTP_PATH")
 		for strings.HasSuffix(prefix, "/") {
 			prefix = strings.TrimSuffix(prefix, "/")
 		}
 
-		mux := http.NewServeMux()
+		var mux = http.NewServeMux()
 		mux.Handle(path, http.StripPrefix(prefix, h))
 		h = mux
 	}
 
-	cb := js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
-		jsReq := whutil.Request{args[0]}
+	var cb = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
+		var jsReq = whutil.Request{args[0]}
 
 		var resPromise = whutil.NewPromise(func(resolve whutil.PromiseResolve, reject whutil.PromiseReject) {
 			go func() {
 				defer func() {
-					r := recover()
-					if r != nil {
+					if r := recover(); r != nil {
 						if err, ok := r.(error); ok {
 							reject(fmt.Sprintf("wasmhttp: panic: %+v\n", err))
 						} else {
@@ -49,12 +49,12 @@ func Serve(handler http.Handler) func() {
 					}
 				}()
 
-				req, err := jsReq.HTTPRequest()
+				var req, err = jsReq.HTTPRequest()
 				if err != nil {
 					panic(err)
 				}
 
-				res := whutil.NewResponseWriter()
+				var res = whutil.NewResponseWriter()
 
 				h.ServeHTTP(res, req)
 
@@ -68,4 +68,66 @@ func Serve(handler http.Handler) func() {
 	js.Global().Get("wasmhttp").Call("registerHandler", os.Getenv("WASMHTTP_HANDLER_ID"), cb)
 
 	return cb.Release
+}
+
+func ServeOnce(handler http.Handler) {
+	var ctx, cancel = context.WithCancel(context.Background())
+
+	var h = handler
+	if h == nil {
+		h = http.DefaultServeMux
+	}
+
+	var path = os.Getenv("WASMHTTP_PATH")
+	if !strings.HasSuffix(path, "/") {
+		path = path + "/"
+	}
+
+	if path != "" { // FIXME always true since / suffix is added to path
+		var prefix = os.Getenv("WASMHTTP_PATH")
+		for strings.HasSuffix(prefix, "/") {
+			prefix = strings.TrimSuffix(prefix, "/")
+		}
+
+		var mux = http.NewServeMux()
+		mux.Handle(path, http.StripPrefix(prefix, h))
+		h = mux
+	}
+
+	var cb = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
+		var jsReq = whutil.Request{args[0]}
+
+		var resPromise = whutil.NewPromise(func(resolve whutil.PromiseResolve, reject whutil.PromiseReject) {
+			go func() {
+				defer cancel()
+
+				defer func() {
+					if r := recover(); r != nil {
+						if err, ok := r.(error); ok {
+							reject(fmt.Sprintf("wasmhttp: panic: %+v\n", err))
+						} else {
+							reject(fmt.Sprintf("wasmhttp: panic: %v\n", r))
+						}
+					}
+				}()
+
+				var req, err = jsReq.HTTPRequest()
+				if err != nil {
+					panic(err)
+				}
+
+				var res = whutil.NewResponseWriter()
+
+				h.ServeHTTP(res, req)
+
+				resolve(res)
+			}()
+		})
+
+		return resPromise
+	})
+
+	js.Global().Get("wasmhttp").Call("registerHandler", os.Getenv("WASMHTTP_HANDLER_ID"), cb)
+
+	<-ctx.Done()
 }

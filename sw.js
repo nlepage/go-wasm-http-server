@@ -76,3 +76,23 @@ addEventListener('fetch', e => {
 
   e.respondWith(handler(e.request))
 })
+
+function registerWasmHTTPListener(wasm, base, args) {
+  let path = new URL(registration.scope).pathname
+  if (base && base !== '') path = `${trimEnd(path, '/')}/${trimStart(base, '/')}`
+
+  addEventListener('fetch', async e => {
+    const { pathname } = new URL(e.request.url)
+    if (!pathname.startsWith(path)) return
+
+    const handlerId = `${nextHandlerId++}`
+    const handlerPromise = new Promise(resolve => handlerResolvers[handlerId] = resolve)
+  
+    // FIXME await ? catch ?
+    startWasm(wasm, { env: { WASMHTTP_HANDLER_ID: handlerId, WASMHTTP_PATH: path }, args })
+  
+    const handler = await handlerPromise
+    
+    e.respondWith(handler(e.request))
+  })
+}
