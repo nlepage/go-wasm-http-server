@@ -15,7 +15,7 @@ function registerWasmHTTPListener(wasm, base, args = []) {
   let path = new URL(registration.scope).pathname
   if (base && base !== '') path = `${trimEnd(path, '/')}/${trimStart(base, '/')}`
 
-  const wasmPromise = fetch(wasm)
+  const wasmPromise = fetch(wasm).then(res => res.arrayBuffer())
 
   addEventListener('fetch', e => {
     const { pathname } = new URL(e.request.url)
@@ -28,7 +28,7 @@ function registerWasmHTTPListener(wasm, base, args = []) {
     go.env = { WASMHTTP_HANDLER_ID: handlerId, WASMHTTP_PATH: path }
     go.argv = [wasm, ...args]
     // FIXME await ? catch ?
-    WebAssembly.instantiateStreaming(wasmPromise, go.importObject).then(({ instance }) => go.run(instance))
+    WebAssembly.instantiate(wasmPromise, go.importObject).then(({ instance }) => go.run(instance))
 
     e.respondWith(handlerPromise.then(handler => handler(e.request)))
   })
