@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -24,5 +25,8 @@ func main() {
 		}
 	})
 
-	wasmhttp.ServeOnce(nil)
+	var release = wasmhttp.Serve(nil)
+	defer release()
+
+	<-context.Background().Done()
 }
