@@ -16,12 +16,10 @@ function registerWasmHTTPListener(wasm, base, args) {
   if (base && base !== '') path = `${trimEnd(path, '/')}/${trimStart(base, '/')}`
 
   addEventListener('fetch', e => {
-    console.log("new fetch !")
-
     const { pathname } = new URL(e.request.url)
     if (!pathname.startsWith(path)) return
 
-    console.log("path OK!")
+    console.log(`FetchEvent ${pathname}`)
 
     const handlerId = `${nextHandlerId++}`
     const handlerPromise = new Promise(resolve => handlerResolvers[handlerId] = resolve)

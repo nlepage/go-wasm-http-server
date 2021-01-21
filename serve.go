@@ -118,7 +118,7 @@ func ServeOnce(handler http.Handler) {
 
 				var res = whutil.NewResponseWriter()
 
-				fmt.Printf("serving %s\n", req.RequestURI)
+				fmt.Printf("serving %s\n", req.URL.String())
 
 				h.ServeHTTP(res, req)
 
