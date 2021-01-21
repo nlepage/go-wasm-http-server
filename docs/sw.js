@@ -1,4 +1,4 @@
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@48880aadf0163ec0d688dc41f121bd143ab6c305/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@cf2a3ceefa9e6180860ad449d5c53edf81dd42dc/sw.js')
 
 addEventListener('install', (event) => {
   event.waitUntil(skipWaiting())
