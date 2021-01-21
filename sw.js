@@ -1,29 +1,5 @@
 importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.15.7/misc/wasm/wasm_exec.js')
 
-async function startWasm(wasm, { env, args = [] }) {
-  const go = new Go()
-  go.env = env
-  go.argv = [wasm, ...args]
-  const { instance } = await WebAssembly.instantiateStreaming(fetch(wasm), go.importObject)
-  return go.run(instance)
-}
-
-function trimStart(s, c) {
-  let r = s
-  while (r.startsWith(c)) r = r.slice(c.length)
-  return r
-}
-
-function trimEnd(s, c) {
-  let r = s
-  while (r.endsWith(c)) r = r.slice(0, -c.length)
-  return r
-}
-
-// addEventListener('install', (event) => {
-//   event.waitUntil(skipWaiting())
-// })
-
 let nextHandlerId = 1
 const handlerResolvers = {}
 const handlers = []
@@ -34,10 +10,6 @@ self.wasmhttp = {
     delete handlerResolvers[handlerId]
   },
 }
-
-addEventListener('activate', event => {
-  event.waitUntil(clients.claim())
-})
 
 function registerWasmHTTPListener(wasm, base, args) {
   let path = new URL(registration.scope).pathname
@@ -59,6 +31,28 @@ function registerWasmHTTPListener(wasm, base, args) {
   
     const handler = await handlerPromise
 
+    console.log({ handler })
+
     e.respondWith(handler(e.request))
   })
+}
+
+async function startWasm(wasm, { env, args = [] }) {
+  const go = new Go()
+  go.env = env
+  go.argv = [wasm, ...args]
+  const { instance } = await WebAssembly.instantiateStreaming(fetch(wasm), go.importObject)
+  return go.run(instance)
+}
+
+function trimStart(s, c) {
+  let r = s
+  while (r.startsWith(c)) r = r.slice(c.length)
+  return r
+}
+
+function trimEnd(s, c) {
+  let r = s
+  while (r.endsWith(c)) r = r.slice(0, -c.length)
+  return r
 }

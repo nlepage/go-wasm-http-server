@@ -22,5 +22,7 @@ func main() {
 		}
 	})
 
+	fmt.Println("Calling ServeOnce")
+
 	wasmhttp.ServeOnce(nil)
 }
