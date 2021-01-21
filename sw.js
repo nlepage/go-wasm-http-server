@@ -1,4 +1,4 @@
-importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.14.3/misc/wasm/wasm_exec.js')
+importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.15.7/misc/wasm/wasm_exec.js')
 
 // FIXME use an options object with { env, argv }
 const startWasm = async (wasm, WASMHTTP_HANDLER_ID, WASMHTTP_PATH, args) => {
