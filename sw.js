@@ -28,7 +28,9 @@ function registerWasmHTTPListener(wasm, base, args = []) {
     go.env = { WASMHTTP_HANDLER_ID: handlerId, WASMHTTP_PATH: path }
     go.argv = [wasm, ...args]
     // FIXME await ? catch ?
-    WebAssembly.instantiate(wasmPromise, go.importObject).then(({ instance }) => go.run(instance))
+    wasmPromise
+      .then(wasm => WebAssembly.instantiate(wasm, go.importObject))
+      .then(({ instance }) => go.run(instance))
 
     e.respondWith(handlerPromise.then(handler => handler(e.request)))
   })
