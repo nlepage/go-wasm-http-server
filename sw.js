@@ -1,6 +1,6 @@
 importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.15.7/misc/wasm/wasm_exec.js')
 
-async function startWasm(wasm, { env, args = [] }) => {
+async function startWasm(wasm, { env, args = [] }) {
   const go = new Go()
   go.env = env
   go.argv = [wasm, ...args]
@@ -36,7 +36,6 @@ self.wasmhttp = {
 }
 
 addEventListener('activate', event => {
-  console.log('activate!')
   event.waitUntil(clients.claim())
 })
 
