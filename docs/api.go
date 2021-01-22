@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,7 +10,7 @@ import (
 )
 
 func main() {
-	defer fmt.Println("api stopped...")
+	defer fmt.Println("api stopping...")
 
 	http.HandleFunc("/hello", func(res http.ResponseWriter, req *http.Request) {
 		params := make(map[string]string)
@@ -24,5 +25,8 @@ func main() {
 		}
 	})
 
-	wasmhttp.Serve(nil)
+	var release = wasmhttp.Serve(nil)
+	defer release()
+
+	<-context.Background().Done()
 }

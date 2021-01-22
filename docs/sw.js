@@ -8,4 +8,4 @@ addEventListener('activate', event => {
   event.waitUntil(clients.claim())
 })
 
-registerWasmHTTPListener('api.wasm', { base: 'api' })
+registerWasmHTTPListener('api.wasm', 'api')

@@ -1,7 +1,6 @@
 package wasmhttp
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -11,7 +10,7 @@ import (
 )
 
 // Serve serves HTTP requests using handler or http.DefaultServeMux if handler is nil.
-func Serve(handler http.Handler) {
+func Serve(handler http.Handler) func() {
 	var h = handler
 	if h == nil {
 		h = http.DefaultServeMux
@@ -58,27 +57,8 @@ func Serve(handler http.Handler) {
 
 		return resPromise
 	})
-	defer cb.Release()
 
 	js.Global().Get("wasmhttp").Call("setHandler", cb)
 
-	<-Context().Done()
-}
-
-func Context() context.Context {
-	var timeoutPromise = js.Global().Get("wasmhttp").Get("timeoutPromise")
-
-	if timeoutPromise.IsUndefined() {
-		return context.Background()
-	}
-
-	var ctx, cancel = context.WithCancel(context.Background())
-
-	go func() {
-		whutil.Promise{timeoutPromise}.Await()
-
-		cancel()
-	}()
-
-	return ctx
+	return cb.Release
 }
