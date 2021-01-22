@@ -3,7 +3,15 @@
   <head>
     <title>go-wasm-http-server demo</title>
     <script>
-      navigator.serviceWorker.register('sw.js')
+      navigator.serviceWorker.register('sw.js').then(reg => {
+        if(reg.installing) {
+          console.log('Service worker installing')
+        } else if(reg.waiting) {
+          console.log('Service worker installed')
+        } else if(reg.active) {
+          console.log('Service worker active')
+        }
+      })
 
       async function hello() {
         res = await fetch('api/hello', {
