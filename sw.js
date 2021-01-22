@@ -12,7 +12,6 @@ function registerWasmHTTPListener(wasm, base, args = []) {
   })
 
   const go = new Go()
-  go.env = { WASMHTTP_HANDLER_ID: handlerId, WASMHTTP_PATH: path }
   go.argv = [wasm, ...args]
   WebAssembly.instantiateStreaming(fetch(wasm), go.importObject).then(({ instance }) => go.run(instance))
 
