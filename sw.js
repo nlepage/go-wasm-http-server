@@ -1,6 +1,6 @@
 importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.15.7/misc/wasm/wasm_exec.js')
 
-function registerWasmHTTPListener(wasm, base, args = []) {
+function registerWasmHTTPListener(wasm, { base, args = [] } = {}) {
   let path = new URL(registration.scope).pathname
   if (base && base !== '') path = `${trimEnd(path, '/')}/${trimStart(base, '/')}`
 
