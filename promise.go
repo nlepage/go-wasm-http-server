@@ -1,24 +1,27 @@
-package whutil
+package wasmhttp
 
 import (
 	"syscall/js"
 )
 
-// Promise is JS Promise
+// Promise is a JavaScript Promise
 type Promise struct {
 	js.Value
 }
 
-type PromiseResolve func(...interface{}) js.Value
-
-type PromiseReject func(...interface{}) js.Value
-
-// NewPromise creates a new JS Promise
-func NewPromise(cb func(resolve PromiseResolve, reject PromiseReject)) Promise {
+// NewPromise creates a new JavaScript Promise
+func NewPromise(cb func(resolve func(interface{}), reject func(interface{}))) Promise {
 	var cbFunc js.Func
 	cbFunc = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
 		defer cbFunc.Release()
-		cb(args[0].Invoke, args[1].Invoke)
+		cb(
+			func(value interface{}) {
+				args[0].Invoke(value)
+			},
+			func(value interface{}) {
+				args[1].Invoke(value)
+			},
+		)
 		return js.Undefined()
 	})
 	return Promise{js.Global().Get("Promise").New(cbFunc)}

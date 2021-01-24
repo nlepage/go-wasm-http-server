@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"strings"
 	"syscall/js"
-
-	"github.com/nlepage/go-wasm-http-server/internal/whutil"
 )
 
 // Serve serves HTTP requests using handler or http.DefaultServeMux if handler is nil.
@@ -28,9 +26,7 @@ func Serve(handler http.Handler) func() {
 	}
 
 	var cb = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
-		var jsReq = whutil.Request{args[0]}
-
-		var resPromise = whutil.NewPromise(func(resolve whutil.PromiseResolve, reject whutil.PromiseReject) {
+		var resPromise = NewPromise(func(resolve func(interface{}), reject func(interface{})) {
 			go func() {
 				defer func() {
 					if r := recover(); r != nil {
@@ -42,12 +38,12 @@ func Serve(handler http.Handler) func() {
 					}
 				}()
 
-				var req, err = jsReq.HTTPRequest()
+				var req, err = Request(args[0])
 				if err != nil {
 					panic(err)
 				}
 
-				var res = whutil.NewResponseWriter()
+				var res = NewResponseWriter()
 
 				h.ServeHTTP(res, req)
 

@@ -1,4 +1,4 @@
-package whutil
+package wasmhttp
 
 import (
 	"bytes"
@@ -6,13 +6,8 @@ import (
 	"syscall/js"
 )
 
-// Request is a JS Request
-type Request struct {
-	js.Value
-}
-
-// HTTPRequest builds and returns the equivalent http.Request
-func (r Request) HTTPRequest() (*http.Request, error) {
+// Request builds and returns the equivalent http.Request
+func Request(r js.Value) (*http.Request, error) {
 	jsBody := js.Global().Get("Uint8Array").New(Promise{r.Call("arrayBuffer")}.Await())
 	body := make([]byte, jsBody.Get("length").Int())
 	js.CopyBytesToGo(body, jsBody)
