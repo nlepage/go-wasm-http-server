@@ -37,11 +37,11 @@ func (rr ResponseRecorder) JSValue() js.Value {
 
 	var body js.Value = js.Undefined()
 	if res.ContentLength != 0 {
-		body = js.Global().Get("Uint8Array").New(res.ContentLength)
 		var b, err = ioutil.ReadAll(res.Body)
 		if err != nil {
 			panic(err)
 		}
+		body = js.Global().Get("Uint8Array").New(len(b))
 		js.CopyBytesToJS(body, b)
 	}
 
