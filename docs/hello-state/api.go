@@ -17,6 +17,7 @@ func main() {
 			panic(err)
 		}
 
+		res.Header().Add("Content-Type", "application/json")
 		if err := json.NewEncoder(res).Encode(map[string]string{
 			"message": fmt.Sprintf("Hello %s! (request n°%d)", params["name"], no),
 		}); err != nil {

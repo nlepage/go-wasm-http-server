@@ -3,6 +3,7 @@ package wasmhttp
 import (
 	"bytes"
 	"net/http"
+	"net/http/httptest"
 	"syscall/js"
 )
 
@@ -12,14 +13,11 @@ func Request(r js.Value) (*http.Request, error) {
 	body := make([]byte, jsBody.Get("length").Int())
 	js.CopyBytesToGo(body, jsBody)
 
-	req, err := http.NewRequest(
+	req := httptest.NewRequest(
 		r.Get("method").String(),
 		r.Get("url").String(),
 		bytes.NewBuffer(body),
 	)
-	if err != nil {
-		return nil, err
-	}
 
 	headersIt := r.Get("headers").Call("entries")
 	for {

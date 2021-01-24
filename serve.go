@@ -43,7 +43,7 @@ func Serve(handler http.Handler) func() {
 					panic(err)
 				}
 
-				var res = NewResponseWriter()
+				var res = NewResponseRecorder()
 
 				h.ServeHTTP(res, req)
 
