@@ -1,8 +1,7 @@
 <h1 align="center">Welcome to go-wasm-http-server 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
-  <a href="https://godoc.org/github.com/nlepage/go-wasm-http-server" target="_blank">
-    <img alt="Documentation" src="https://godoc.org/github.com/nlepage/go-wasm-http-server?status.svg" />
+  <a href="https://pkg.go.dev/github.com/nlepage/go-wasm-http-server#section-documentation">
+    <img src="https://pkg.go.dev/badge/github.com/nlepage/go-wasm-http-server.svg" alt="Go Reference">
   </a>
   <a href="https://github.com/nlepage/go-wasm-http-server/blob/master/LICENSE" target="_blank">
     <img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache--2.0-yellow.svg" />
@@ -18,9 +17,7 @@
 
 ## Install
 
-```sh
-yarn add go-wasm-http-server
-```
+TODO
 
 ## Usage
 
@@ -52,7 +49,7 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2019 [Nicolas Lepage](https://github.com/nlepage).<br />
+Copyright © 2021 [Nicolas Lepage](https://github.com/nlepage).<br />
 This project is [Apache 2.0](https://github.com/nlepage/go-wasm-http-server/blob/master/LICENSE) licensed.
 
 ***
