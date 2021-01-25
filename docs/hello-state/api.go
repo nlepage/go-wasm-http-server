@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync/atomic"
 
 	wasmhttp "github.com/nlepage/go-wasm-http-server"
 )
 
 func main() {
-	var no = 1
+	var counter int32
 
 	http.HandleFunc("/hello", func(res http.ResponseWriter, req *http.Request) {
 		params := make(map[string]string)
@@ -19,12 +20,10 @@ func main() {
 
 		res.Header().Add("Content-Type", "application/json")
 		if err := json.NewEncoder(res).Encode(map[string]string{
-			"message": fmt.Sprintf("Hello %s! (request n°%d)", params["name"], no),
+			"message": fmt.Sprintf("Hello %s! (request %d)", params["name"], atomic.AddInt32(&counter, 1)),
 		}); err != nil {
 			panic(err)
 		}
-
-		no++
 	})
 
 	wasmhttp.Serve(nil)

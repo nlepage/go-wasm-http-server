@@ -21,6 +21,17 @@ var _ js.Wrapper = ResponseRecorder{}
 // JSValue builds and returns the equivalent JS Response (implementing js.Wrapper)
 func (rr ResponseRecorder) JSValue() js.Value {
 	var res = rr.Result()
+
+	var body js.Value = js.Undefined()
+	if res.ContentLength != 0 {
+		var b, err = ioutil.ReadAll(res.Body)
+		if err != nil {
+			panic(err)
+		}
+		body = js.Global().Get("Uint8Array").New(len(b))
+		js.CopyBytesToJS(body, b)
+	}
+
 	var init = make(map[string]interface{})
 
 	if res.StatusCode != 0 {
@@ -33,16 +44,6 @@ func (rr ResponseRecorder) JSValue() js.Value {
 			headers[k] = res.Header.Get(k)
 		}
 		init["headers"] = headers
-	}
-
-	var body js.Value = js.Undefined()
-	if res.ContentLength != 0 {
-		var b, err = ioutil.ReadAll(res.Body)
-		if err != nil {
-			panic(err)
-		}
-		body = js.Global().Get("Uint8Array").New(len(b))
-		js.CopyBytesToJS(body, b)
 	}
 
 	return js.Global().Get("Response").New(body, init)
