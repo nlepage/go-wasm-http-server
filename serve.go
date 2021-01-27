@@ -38,14 +38,9 @@ func Serve(handler http.Handler) func() {
 					}
 				}()
 
-				var req, err = Request(args[0])
-				if err != nil {
-					panic(err)
-				}
-
 				var res = NewResponseRecorder()
 
-				h.ServeHTTP(res, req)
+				h.ServeHTTP(res, Request(args[0]))
 
 				resolve(res)
 			}()

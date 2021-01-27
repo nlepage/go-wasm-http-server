@@ -8,7 +8,7 @@ import (
 )
 
 // Request builds and returns the equivalent http.Request
-func Request(r js.Value) (*http.Request, error) {
+func Request(r js.Value) *http.Request {
 	jsBody := js.Global().Get("Uint8Array").New(Promise{r.Call("arrayBuffer")}.Await())
 	body := make([]byte, jsBody.Get("length").Int())
 	js.CopyBytesToGo(body, jsBody)
@@ -29,5 +29,5 @@ func Request(r js.Value) (*http.Request, error) {
 		req.Header.Set(v.Index(0).String(), v.Index(1).String())
 	}
 
-	return req, nil
+	return req
 }
