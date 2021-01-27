@@ -26,25 +26,25 @@ func Serve(handler http.Handler) func() {
 	}
 
 	var cb = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
-		var resPromise = NewPromise(func(resolve func(interface{}), reject func(interface{})) {
-			go func() {
-				defer func() {
-					if r := recover(); r != nil {
-						if err, ok := r.(error); ok {
-							reject(fmt.Sprintf("wasmhttp: panic: %+v\n", err))
-						} else {
-							reject(fmt.Sprintf("wasmhttp: panic: %v\n", r))
-						}
+		var resPromise, resolve, reject = NewPromise()
+
+		go func() {
+			defer func() {
+				if r := recover(); r != nil {
+					if err, ok := r.(error); ok {
+						reject(fmt.Sprintf("wasmhttp: panic: %+v\n", err))
+					} else {
+						reject(fmt.Sprintf("wasmhttp: panic: %v\n", r))
 					}
-				}()
-
-				var res = NewResponseRecorder()
-
-				h.ServeHTTP(res, Request(args[0]))
-
-				resolve(res)
+				}
 			}()
-		})
+
+			var res = NewResponseRecorder()
+
+			h.ServeHTTP(res, Request(args[0]))
+
+			resolve(res)
+		}()
 
 		return resPromise
 	})

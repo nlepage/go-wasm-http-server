@@ -9,7 +9,7 @@ import (
 
 // Request builds and returns the equivalent http.Request
 func Request(r js.Value) *http.Request {
-	jsBody := js.Global().Get("Uint8Array").New(Promise{r.Call("arrayBuffer")}.Await())
+	jsBody := js.Global().Get("Uint8Array").New(Await(r.Call("arrayBuffer")))
 	body := make([]byte, jsBody.Get("length").Int())
 	js.CopyBytesToGo(body, jsBody)
 
