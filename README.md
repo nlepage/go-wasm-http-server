@@ -11,9 +11,9 @@
   </a>
 </p>
 
-> WebAssembly Go HTTP Server embedded in a ServiceWorker
+> Build your Go HTTP Server to [WebAssembly](https://mdn.io/WebAssembly/) and embed it in a ServiceWorker!
 
-### ✨ [Demo](https://nlepage.github.io/go-wasm-http-server/)
+✨ [Demos](https://nlepage.github.io/go-wasm-http-server/)
 
 ## Install
 
@@ -35,7 +35,7 @@ TODO
 
 👤 **Nicolas Lepage**
 
-* Website: https://nicolas.lepage.dev
+* Website: https://nicolas.lepage.dev/
 * Twitter: [@njblepage](https://twitter.com/njblepage)
 * Github: [@nlepage](https://github.com/nlepage)
 

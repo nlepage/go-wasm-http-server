@@ -32,7 +32,7 @@ func (rr ResponseRecorder) JSValue() js.Value {
 		js.CopyBytesToJS(body, b)
 	}
 
-	var init = make(map[string]interface{})
+	var init = make(map[string]interface{}, 2)
 
 	if res.StatusCode != 0 {
 		init["status"] = res.StatusCode
