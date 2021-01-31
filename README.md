@@ -13,7 +13,12 @@
 
 > Build your Go HTTP Server to [WebAssembly](https://mdn.io/WebAssembly/) and embed it in a ServiceWorker!
 
-✨ [Demos](https://nlepage.github.io/go-wasm-http-server/)
+## Examples
+
+ - [Hello example](https://nlepage.github.io/go-wasm-http-server/hello) ([sources](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello))
+ - [Hello example with state](https://nlepage.github.io/go-wasm-http-server/hello-state) ([sources](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello-state))
+ - [Hello example with state and keepalive](https://nlepage.github.io/go-wasm-http-server/hello-state-keepalive) ([sources](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello-state-keepalive))
+ - [😺 Catption generator example](https://nlepage.github.io/catption/wasm) ([sources](https://github.com/nlepage/catption/tree/wasm))
 
 ## Requirements
 
@@ -120,7 +125,24 @@ fetch('server/path/to/resource').then(res => {
 
 ## API
 
-FIXME
+### Go API
+
+See [pkg.go.dev/github.com/nlepage/go-wasm-http-server](https://pkg.go.dev/github.com/nlepage/go-wasm-http-server#section-documentation)
+
+### [`registerWasmHTTPListener(wasmUrl, options)`](https://github.com/nlepage/go-wasm-http-server/blob/v1.0.0/sw.js#L3)
+
+Instantiates and runs the WebAssembly module at `wasmUrl`, and registers a fetch listener forwarding requests to the WebAssembly module.
+
+#### `wasmUrl`
+
+URL string of the WebAssembly module, example: `"path/to/my-module.wasm"`.
+
+#### `options`
+
+An optional object containing:
+
+- `base` (`string`): Base path of the server, relative to the ServiceWorker's scope.
+- `args` (`string[]`): Arguments for the WebAssembly module.
 
 ## Why?
 
