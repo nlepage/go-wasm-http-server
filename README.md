@@ -87,7 +87,7 @@ importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v1.0.0/sw
 registerWasmHTTPListener('path/to/server.wasm')
 ```
 
-By default the server will deploy at the ServiceWorker's scope root, check [`registerWasmHTTPListener()`'s API](https://github.com/nlepage/go-wasm-http-server#registerwasmhttplistener) for more information.
+By default the server will deploy at the ServiceWorker's scope root, check [`registerWasmHTTPListener()`'s API](https://github.com/nlepage/go-wasm-http-server#registerwasmhttplistenerwasmurl-options) for more information.
 
 You may want to add these additional event listeners in your ServiceWorker:
 
@@ -131,7 +131,13 @@ See [pkg.go.dev/github.com/nlepage/go-wasm-http-server](https://pkg.go.dev/githu
 
 ### [`registerWasmHTTPListener(wasmUrl, options)`](https://github.com/nlepage/go-wasm-http-server/blob/v1.0.0/sw.js#L3)
 
-Instantiates and runs the WebAssembly module at `wasmUrl`, and registers a fetch listener forwarding requests to the WebAssembly module.
+Instantiates and runs the WebAssembly module at `wasmUrl`, and registers a fetch listener forwarding requests to the WebAssembly module's server.
+
+⚠ This function must be called only once in a ServiceWorker, if you want to register several servers you must use several ServiceWorkers.
+
+The server will be "deployed" at the root of the ServiceWorker's scope by default, `base` may be used to deploy the server at a subpath of the scope.
+
+See [ServiceWorkerContainer.register()](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register) for more information about the scope of a ServiceWorker.
 
 #### `wasmUrl`
 
