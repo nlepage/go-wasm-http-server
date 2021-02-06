@@ -125,9 +125,9 @@ fetch('server/path/to/resource').then(res => {
 
 ## API
 
-### Go API
+For Go API see [pkg.go.dev/github.com/nlepage/go-wasm-http-server](https://pkg.go.dev/github.com/nlepage/go-wasm-http-server#section-documentation)
 
-See [pkg.go.dev/github.com/nlepage/go-wasm-http-server](https://pkg.go.dev/github.com/nlepage/go-wasm-http-server#section-documentation)
+### JavaScript API
 
 ### [`registerWasmHTTPListener(wasmUrl, options)`](https://github.com/nlepage/go-wasm-http-server/blob/v1.0.0/sw.js#L3)
 
