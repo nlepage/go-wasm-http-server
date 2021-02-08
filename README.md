@@ -19,6 +19,7 @@
  - [Hello example with state](https://nlepage.github.io/go-wasm-http-server/hello-state) ([sources](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello-state))
  - [Hello example with state and keepalive](https://nlepage.github.io/go-wasm-http-server/hello-state-keepalive) ([sources](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello-state-keepalive))
  - [😺 Catption generator example](https://nlepage.github.io/catption/wasm) ([sources](https://github.com/nlepage/catption/tree/wasm))
+ - [Random password generator web server](https://nlepage.github.io/random-password-please/) ([sources](https://github.com/nlepage/random-password-please) forked from [jbarham/random-password-please](https://github.com/jbarham/random-password-please))
 
 ## Requirements
 
