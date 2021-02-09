@@ -21,6 +21,21 @@
  - [😺 Catption generator example](https://nlepage.github.io/catption/wasm) ([sources](https://github.com/nlepage/catption/tree/wasm))
  - [Random password generator web server](https://nlepage.github.io/random-password-please/) ([sources](https://github.com/nlepage/random-password-please) forked from [jbarham/random-password-please](https://github.com/jbarham/random-password-please))
 
+
+## How?
+
+Talk given at the Go devroom of FOSDEM 2021 explaining how `go-wasm-http-server` works:
+
+<a href="https://youtu.be/O2RB_8ircdE" target="_blank">
+  <img alt="Deploy a Go HTTP server in your browser Youtube link" src="https://raw.githubusercontent.com/nlepage/go-wasm-http-talk/main/youtube.png" width="400">
+</a>
+
+The slides are available [here](https://nlepage.github.io/go-wasm-http-talk/).
+
+## Why?
+
+`go-wasm-http-server` can help you put up a demonstration for a project without actually running a Go HTTP server.
+
 ## Requirements
 
 `go-wasm-http-server` requires you to build your Go application to WebAssembly, so you need to make sure your code is compatible:
@@ -150,16 +165,6 @@ An optional object containing:
 
 - `base` (`string`): Base path of the server, relative to the ServiceWorker's scope.
 - `args` (`string[]`): Arguments for the WebAssembly module.
-
-## Why?
-
-`go-wasm-http-server` can help you put up a demonstration for a project without actually running a Go HTTP server.
-
-## How?
-
-If you want to know how `go-wasm-http-server` works, I will be presenting the project at [the FOSDEM 2021 Go devroom](https://fosdem.org/2021/schedule/room/dgo/).
-
-The slides are available [here](https://nlepage.github.io/go-wasm-http-talk/).
 
 ## Author
 
