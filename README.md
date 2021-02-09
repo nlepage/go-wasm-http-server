@@ -26,9 +26,7 @@
 
 Talk given at the Go devroom of FOSDEM 2021 explaining how `go-wasm-http-server` works:
 
-<a href="https://youtu.be/O2RB_8ircdE" target="_blank">
-  <img alt="Deploy a Go HTTP server in your browser Youtube link" src="https://raw.githubusercontent.com/nlepage/go-wasm-http-talk/main/youtube.png" width="400">
-</a>
+[![Deploy a Go HTTP server in your browser Youtube link](https://raw.githubusercontent.com/nlepage/go-wasm-http-talk/main/youtube.png)](https://youtu.be/O2RB_8ircdE)
 
 The slides are available [here](https://nlepage.github.io/go-wasm-http-talk/).
 
