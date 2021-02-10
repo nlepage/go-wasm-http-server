@@ -11,7 +11,7 @@
   </a>
 </p>
 
-> Build your Go HTTP Server to [WebAssembly](https://mdn.io/WebAssembly/) and embed it in a ServiceWorker!
+> Embed your Go HTTP handlers in a ServiceWorker (usin [WebAssembly](https://mdn.io/WebAssembly/)) and emulate an HTTP server!
 
 ## Examples
 
