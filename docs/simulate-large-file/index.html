@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>go-wasm-http-server: simulate large file</title>
+  <style>
+    form {
+      margin: 2em auto;
+      text-align: center;
+      line-height: 180%;
+    }
+
+
+    input[type="range"] {
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <form name="download" action="#" method="post">
+    <div>
+      <input type="range" step="1" min="0" max="300" value="10" id="range" name="range"> <span id="rangeText"></span>
+    </div>
+    <div>
+      <input type="submit" value="download file" />
+    </div>
+  </form>
+</body>
+
+<script>
+  navigator.serviceWorker.register("sw.js");
+
+  function rangeHalder() {
+    let form = document.forms.download
+    let size = form.elements.range.value
+    form.action = `/api/create-file-by-size?size=${size}`
+    document.querySelector('#rangeText').innerText = `${size} Mb`
+  }
+
+  document.querySelector('#range').addEventListener('input', rangeHalder)
+  rangeHalder()
+</script>
+
+
+</html>
