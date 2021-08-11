@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="utf-8">
   <title>go-wasm-http-server: simulate large file</title>
   <style>
     form {
@@ -18,29 +19,30 @@
 </head>
 
 <body>
-  <form name="download" action="#" method="post">
+  <form name="simulateFile" action="./api/create-file-by-size?size=0" method="get">
     <div>
-      <input type="range" step="1" min="0" max="300" value="10" id="range" name="range"> <span id="rangeText"></span>
+      <input type="range" step="1" min="0" max="300" value="10" name="size">
+      <div id="sizeText"></div>
     </div>
     <div>
       <input type="submit" value="download file" />
     </div>
   </form>
+  <script>
+    navigator.serviceWorker.register("sw.js");
+
+    const form = document.forms.simulateFile
+    const size = form.elements.size
+
+    function sizeHandler() {
+      form.action = `./api/create-file-by-size?size=${size.value}`
+      document.querySelector('#sizeText').innerText = `${size.value} Mb`
+    }
+    size.addEventListener('input', sizeHandler)
+    sizeHandler()
+  </script>
 </body>
 
-<script>
-  navigator.serviceWorker.register("sw.js");
-
-  function rangeHalder() {
-    let form = document.forms.download
-    let size = form.elements.range.value
-    form.action = `/api/create-file-by-size?size=${size}`
-    document.querySelector('#rangeText').innerText = `${size} Mb`
-  }
-
-  document.querySelector('#range').addEventListener('input', rangeHalder)
-  rangeHalder()
-</script>
 
 
 </html>
