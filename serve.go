@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"strings"
 	"syscall/js"
+
+	promise "github.com/nlepage/go-js-promise"
 )
 
 // Serve serves HTTP requests using handler or http.DefaultServeMux if handler is nil.
@@ -26,7 +28,7 @@ func Serve(handler http.Handler) func() {
 	}
 
 	var cb = js.FuncOf(func(_ js.Value, args []js.Value) interface{} {
-		var resPromise, resolve, reject = NewPromise()
+		var resPromise, resolve, reject = promise.New()
 
 		go func() {
 			defer func() {

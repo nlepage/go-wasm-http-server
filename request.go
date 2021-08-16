@@ -5,11 +5,13 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"syscall/js"
+
+	promise "github.com/nlepage/go-js-promise"
 )
 
 // Request builds and returns the equivalent http.Request
 func Request(r js.Value) *http.Request {
-	jsBody := js.Global().Get("Uint8Array").New(Await(r.Call("arrayBuffer")))
+	jsBody := js.Global().Get("Uint8Array").New(promise.Await(r.Call("arrayBuffer")))
 	body := make([]byte, jsBody.Get("length").Int())
 	js.CopyBytesToGo(body, jsBody)
 
