@@ -45,7 +45,7 @@ func Serve(handler http.Handler) func() {
 
 			h.ServeHTTP(res, Request(args[0]))
 
-			resolve(res)
+			resolve(res.JSResponse())
 		}()
 
 		return resPromise

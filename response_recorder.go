@@ -6,7 +6,7 @@ import (
 	"syscall/js"
 )
 
-// ResponseRecorder extends httptest.ResponseRecorder and implements js.Wrapper
+// ResponseRecorder uses httptest.ResponseRecorder to build a JS Response
 type ResponseRecorder struct {
 	*httptest.ResponseRecorder
 }
@@ -16,10 +16,8 @@ func NewResponseRecorder() ResponseRecorder {
 	return ResponseRecorder{httptest.NewRecorder()}
 }
 
-var _ js.Wrapper = ResponseRecorder{}
-
-// JSValue builds and returns the equivalent JS Response (implementing js.Wrapper)
-func (rr ResponseRecorder) JSValue() js.Value {
+// JSResponse builds and returns the equivalent JS Response
+func (rr ResponseRecorder) JSResponse() js.Value {
 	var res = rr.Result()
 
 	var body js.Value = js.Undefined()
