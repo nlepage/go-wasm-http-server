@@ -23,7 +23,11 @@ func Example_json() {
 		}
 	})
 
-	defer wasmhttp.Serve(nil)()
+	release, err := wasmhttp.Serve(nil)
+	if err != nil {
+		panic(err)
+	}
+	defer release()
 
 	// Wait for webpage event or use empty select{}
 }

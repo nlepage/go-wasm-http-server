@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>go-wasm-http-server hello demo</title>
+    <script>
+      navigator.serviceWorker.register('sw.js')
+        .then(registration => {
+          const serviceWorker = registration.installing ?? registration.waiting ?? registration.active
+          if (serviceWorker.state === 'activated') {
+            startEventSource()
+          } else {
+            serviceWorker.addEventListener('statechange', e => {
+              if (e.target.state === 'activated') startEventSource()
+            })
+          }
+        })
+      
+      function startEventSource() {
+        const es = new EventSource('/api/events')
+        es.addEventListener('ping', (e) => {
+          const p = document.createElement('p')
+          p.textContent = `ping: data=${e.data}`
+          document.body.append(p)
+        })
+        window.addEventListener('unload', () => {
+          es.close()
+        })
+      }
+    </script>
+  </head>
+  <body></body>
+</html>
