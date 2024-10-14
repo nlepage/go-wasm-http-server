@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"syscall/js"
 
-	"github.com/nlepage/go-wasm-http-server/internal/readablestream"
-	"github.com/nlepage/go-wasm-http-server/internal/safejs"
+	"github.com/nlepage/go-wasm-http-server/v2/internal/readablestream"
+	"github.com/nlepage/go-wasm-http-server/v2/internal/safejs"
 )
 
 // Request builds and returns the equivalent http.Request

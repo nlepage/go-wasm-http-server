@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"sync/atomic"
 
-	wasmhttp "github.com/nlepage/go-wasm-http-server"
+	wasmhttp "github.com/nlepage/go-wasm-http-server/v2"
 )
 
 func main() {

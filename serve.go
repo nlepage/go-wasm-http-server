@@ -7,7 +7,7 @@ import (
 	"strings"
 	"syscall/js"
 
-	"github.com/nlepage/go-wasm-http-server/internal/safejs"
+	"github.com/nlepage/go-wasm-http-server/v2/internal/safejs"
 )
 
 var (

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	wasmhttp "github.com/nlepage/go-wasm-http-server"
+	wasmhttp "github.com/nlepage/go-wasm-http-server/v2/v2"
 )
 
 // Demonstrates a simple hello JSON service.

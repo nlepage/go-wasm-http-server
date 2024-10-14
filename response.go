@@ -11,9 +11,9 @@ import (
 
 	promise "github.com/nlepage/go-js-promise"
 
-	"github.com/nlepage/go-wasm-http-server/internal/jstype"
-	"github.com/nlepage/go-wasm-http-server/internal/readablestream"
-	"github.com/nlepage/go-wasm-http-server/internal/safejs"
+	"github.com/nlepage/go-wasm-http-server/v2/internal/jstype"
+	"github.com/nlepage/go-wasm-http-server/v2/internal/readablestream"
+	"github.com/nlepage/go-wasm-http-server/v2/internal/safejs"
 )
 
 type Response interface {

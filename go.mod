@@ -1,4 +1,4 @@
-module github.com/nlepage/go-wasm-http-server
+module github.com/nlepage/go-wasm-http-server/v2
 
 go 1.18
 

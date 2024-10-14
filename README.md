@@ -72,7 +72,7 @@ becomes:
 package main
 
 import (
-    wasmhttp "github.com/nlepage/go-wasm-http-server"
+    wasmhttp "github.com/nlepage/go-wasm-http-server/v2"
 )
 
 func main() {
@@ -97,7 +97,7 @@ Create a ServiceWorker file with the following code:
 📄 `sw.js`
 ```js
 importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.18.4/misc/wasm/wasm_exec.js')
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v1.1.0/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.0.0/sw.js')
 
 registerWasmHTTPListener('path/to/server.wasm')
 ```
@@ -144,7 +144,7 @@ For Go API see [pkg.go.dev/github.com/nlepage/go-wasm-http-server](https://pkg.g
 
 ### JavaScript API
 
-### [`registerWasmHTTPListener(wasmUrl, options)`](https://github.com/nlepage/go-wasm-http-server/blob/v1.0.0/sw.js#L3)
+### `registerWasmHTTPListener(wasmUrl, options)`
 
 Instantiates and runs the WebAssembly module at `wasmUrl`, and registers a fetch listener forwarding requests to the WebAssembly module's server.
 
