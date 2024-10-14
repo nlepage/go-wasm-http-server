@@ -57,19 +57,13 @@ func Serve(handler http.Handler) (func(), error) {
 
 			defer func() {
 				if r := recover(); r != nil {
-					var errStr string
-					if err, ok := r.(error); ok {
-						errStr = err.Error()
-					} else {
-						errStr = fmt.Sprintf("%s", r)
-					}
-					res.WriteError(errStr)
+					res.WriteError(fmt.Sprintf("%+v", r))
 				}
 			}()
 
 			req, err := Request(safejs.Unsafe(args[0]))
 			if err != nil {
-				res.WriteError(err.Error())
+				res.WriteError(fmt.Sprintf("%+v", err))
 				return
 			}
 

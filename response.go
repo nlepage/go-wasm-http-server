@@ -88,7 +88,7 @@ func (r *response) WriteHeader(code int) {
 	checkWriteHeaderCode(code)
 
 	init, err := safejs.ValueOf(map[string]any{
-		"code":    code,
+		"status":  code,
 		"headers": r.headerValue(),
 	})
 	if err != nil {
