@@ -1,6 +1,7 @@
 package wasmhttp
 
 import (
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"syscall/js"
@@ -13,16 +14,6 @@ import (
 func Request(uvalue js.Value) (*http.Request, error) {
 	value := safejs.Safe(uvalue)
 
-	body, err := value.Get("body")
-	if err != nil {
-		return nil, err
-	}
-
-	r, err := body.Call("getReader")
-	if err != nil {
-		return nil, err
-	}
-
 	method, err := value.GetString("method")
 	if err != nil {
 		return nil, err
@@ -33,10 +24,25 @@ func Request(uvalue js.Value) (*http.Request, error) {
 		return nil, err
 	}
 
+	body, err := value.Get("body")
+	if err != nil {
+		return nil, err
+	}
+
+	var bodyReader io.Reader
+	if !body.IsUndefined() && !body.IsNull() {
+		r, err := body.Call("getReader")
+		if err != nil {
+			return nil, err
+		}
+
+		bodyReader = readablestream.NewReader(r)
+	}
+
 	req := httptest.NewRequest(
 		method,
 		url,
-		readablestream.NewReader(r),
+		bodyReader,
 	)
 
 	headers, err := value.Get("headers")

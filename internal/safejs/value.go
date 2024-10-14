@@ -73,6 +73,14 @@ func (v Value) IndexString(i int) (string, error) {
 	return safejs.Value(sv).String()
 }
 
+func (v Value) IsNull() bool {
+	return safejs.Value(v).IsNull()
+}
+
+func (v Value) IsUndefined() bool {
+	return safejs.Value(v).IsUndefined()
+}
+
 func (v Value) New(args ...any) (Value, error) {
 	args = toJSValue(args).([]any)
 	r, err := safejs.Value(v).New(args...)
