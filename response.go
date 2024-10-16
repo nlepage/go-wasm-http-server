@@ -136,6 +136,7 @@ func (r *response) Context() context.Context {
 func (r *response) WriteError(str string) {
 	slog.Error(str)
 	if !r.wroteHeader {
+		r.Header().Set("Content-Type", "text/plain")
 		r.WriteHeader(500)
 		_, _ = r.WriteString(str)
 	}

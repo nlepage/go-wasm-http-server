@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"syscall/js"
 
+	promise "github.com/nlepage/go-js-promise"
 	"github.com/nlepage/go-wasm-http-server/v2/internal/readablestream"
 	"github.com/nlepage/go-wasm-http-server/v2/internal/safejs"
 )
@@ -30,7 +31,26 @@ func Request(uvalue js.Value) (*http.Request, error) {
 	}
 
 	var bodyReader io.Reader
-	if !body.IsUndefined() && !body.IsNull() {
+
+	if !body.IsNull() {
+		// WORKAROUND: Firefox does not have request.body ReadableStream
+		if body.IsUndefined() {
+			blobp, err := value.Call("blob")
+			if err != nil {
+				return nil, err
+			}
+
+			blob, err := promise.Await(safejs.Unsafe(blobp))
+			if err != nil {
+				return nil, err
+			}
+
+			body, err = safejs.Safe(blob).Call("stream")
+			if err != nil {
+				return nil, err
+			}
+		}
+
 		r, err := body.Call("getReader")
 		if err != nil {
 			return nil, err
