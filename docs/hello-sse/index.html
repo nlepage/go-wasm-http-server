@@ -1,32 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>go-wasm-http-server hello demo</title>
+    <title>go-wasm-http-server hello sse demo</title>
     <script>
       navigator.serviceWorker.register('sw.js')
         .then(registration => {
           const serviceWorker = registration.installing ?? registration.waiting ?? registration.active
           if (serviceWorker.state === 'activated') {
-            startEventSource()
+            document.querySelector('#open-button').disabled = false
           } else {
             serviceWorker.addEventListener('statechange', e => {
-              if (e.target.state === 'activated') startEventSource()
+              if (e.target.state === 'activated') {
+                document.querySelector('#open-button').disabled = false
+              }
             })
           }
         })
       
-      function startEventSource() {
-        const es = new EventSource('/api/events')
-        es.addEventListener('ping', (e) => {
-          const p = document.createElement('p')
-          p.textContent = `ping: data=${e.data}`
-          document.body.append(p)
+      window.addEventListener('DOMContentLoaded', () => {
+        let es;
+
+        document.querySelector('#open-button').addEventListener('click', () => {
+          if (es && es.readyState === es.OPEN) return
+          es = new EventSource('api/events')
+          es.addEventListener('ping', (e) => {
+            const li = document.createElement('li')
+            li.textContent = `ping: data=${e.data}`
+            document.querySelector('ul').append(li)
+          })
         })
+
+        document.querySelector('#close-button').addEventListener('click', () => {
+          if (!es) return
+          es.close() 
+        })
+
+        document.querySelector('#clear-button').addEventListener('click', () => {
+          document.querySelector('ul').innerHTML = ''
+        })
+
         window.addEventListener('unload', () => {
+          if (!es) return
           es.close()
         })
-      }
+      })
     </script>
   </head>
-  <body></body>
+  <body>
+    <p>
+      <button id="open-button" disabled>Open event source</button>
+      <button id="close-button">Close event source</button>
+      <button id="clear-button">Clear events</button>
+    </p>
+    <ul></ul>
+  </body>
 </html>
