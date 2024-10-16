@@ -78,8 +78,8 @@ func (rs *Writer) Write(b []byte) (int, error) {
 }
 
 func (rs *Writer) Close() error {
-	rs.controller.Call("close")
-	return nil
+	_, err := rs.controller.Call("close")
+	return err
 }
 
 func (rs *Writer) Context() context.Context {
