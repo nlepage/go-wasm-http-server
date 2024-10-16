@@ -97,7 +97,7 @@ Create a ServiceWorker file with the following code:
 📄 `sw.js`
 ```js
 importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.18.4/misc/wasm/wasm_exec.js')
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.0.2/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.0.3/sw.js')
 
 registerWasmHTTPListener('path/to/server.wasm')
 ```
