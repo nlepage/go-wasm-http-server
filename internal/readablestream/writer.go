@@ -12,6 +12,7 @@ type Writer struct {
 	Value      safejs.Value
 	controller safejs.Value
 	ctx        context.Context
+	cancelled  bool
 }
 
 var _ io.WriteCloser = (*Writer)(nil)
@@ -54,14 +55,25 @@ func NewWriter() (*Writer, error) {
 		return nil, err
 	}
 
-	return &Writer{
+	rs := &Writer{
 		Value:      value,
 		controller: controller,
 		ctx:        ctx,
-	}, nil
+	}
+
+	go func() {
+		<-ctx.Done()
+		rs.cancelled = true
+	}()
+
+	return rs, nil
 }
 
 func (rs *Writer) Write(b []byte) (int, error) {
+	if rs.cancelled {
+		return 0, nil
+	}
+
 	chunk, err := jstype.Uint8Array.New(len(b)) // FIXME reuse same Uint8Array?
 	if err != nil {
 		return 0, err
@@ -78,6 +90,10 @@ func (rs *Writer) Write(b []byte) (int, error) {
 }
 
 func (rs *Writer) Close() error {
+	if rs.cancelled {
+		return nil
+	}
+
 	_, err := rs.controller.Call("close")
 	return err
 }
