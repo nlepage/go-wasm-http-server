@@ -18,6 +18,8 @@ type Writer struct {
 var _ io.WriteCloser = (*Writer)(nil)
 
 func NewWriter() (*Writer, error) {
+	var rs *Writer
+
 	var start safejs.Func
 	var controller safejs.Value
 
@@ -35,6 +37,7 @@ func NewWriter() (*Writer, error) {
 
 	cancel, err = safejs.FuncOf(func(_ safejs.Value, _ []safejs.Value) any {
 		defer cancel.Release()
+		rs.cancelled = true
 		cancelCtx()
 		return nil
 	})
@@ -55,16 +58,11 @@ func NewWriter() (*Writer, error) {
 		return nil, err
 	}
 
-	rs := &Writer{
+	rs = &Writer{
 		Value:      value,
 		controller: controller,
 		ctx:        ctx,
 	}
-
-	go func() {
-		<-ctx.Done()
-		rs.cancelled = true
-	}()
 
 	return rs, nil
 }
