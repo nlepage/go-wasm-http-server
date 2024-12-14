@@ -3,7 +3,7 @@ package wasmhttp
 import (
 	"io"
 	"net/http"
-	"net/http/httptest"
+	"net/url"
 	"syscall/js"
 
 	promise "github.com/nlepage/go-js-promise"
@@ -20,7 +20,11 @@ func Request(uvalue js.Value) (*http.Request, error) {
 		return nil, err
 	}
 
-	url, err := value.GetString("url")
+	rawURL, err := value.GetString("url")
+	if err != nil {
+		return nil, err
+	}
+	u, err := url.Parse(rawURL)
 	if err != nil {
 		return nil, err
 	}
@@ -59,11 +63,12 @@ func Request(uvalue js.Value) (*http.Request, error) {
 		bodyReader = readablestream.NewReader(r)
 	}
 
-	req := httptest.NewRequest(
-		method,
-		url,
-		bodyReader,
-	)
+	req := &http.Request{
+		Method: method,
+		URL:    u,
+		Body:   io.NopCloser(bodyReader),
+		Header: make(http.Header),
+	}
 
 	headers, err := value.Get("headers")
 	if err != nil {
