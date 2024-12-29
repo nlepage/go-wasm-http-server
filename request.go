@@ -34,7 +34,7 @@ func Request(uvalue js.Value) (*http.Request, error) {
 		return nil, err
 	}
 
-	var bodyReader io.Reader
+	var bodyReader io.ReadCloser
 
 	if !body.IsNull() {
 		// WORKAROUND: Firefox does not have request.body ReadableStream
@@ -66,7 +66,7 @@ func Request(uvalue js.Value) (*http.Request, error) {
 	req := &http.Request{
 		Method: method,
 		URL:    u,
-		Body:   io.NopCloser(bodyReader),
+		Body:   bodyReader,
 		Header: make(http.Header),
 	}
 
