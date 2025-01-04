@@ -64,10 +64,13 @@ func Request(uvalue js.Value) (*http.Request, error) {
 	}
 
 	req := &http.Request{
-		Method: method,
-		URL:    u,
-		Body:   bodyReader,
-		Header: make(http.Header),
+		Method:     method,
+		URL:        u,
+		Body:       bodyReader,
+		Header:     make(http.Header),
+		Proto:      "HTTP/1.1",
+		ProtoMajor: 1,
+		ProtoMinor: 1,
 	}
 
 	headers, err := value.Get("headers")
