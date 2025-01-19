@@ -1,5 +1,5 @@
 importScripts('https://cdn.jsdelivr.net/gh/tinygo-org/tinygo@0.35.0/targets/wasm_exec.js')
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.0.5/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.1.0/sw.js')
 
 const wasm = 'api.wasm'
 

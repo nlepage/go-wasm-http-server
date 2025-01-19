@@ -20,7 +20,7 @@
  - [Hello example with state and keepalive](https://nlepage.github.io/go-wasm-http-server/hello-state-keepalive) ([sources](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello-state-keepalive))
  - [😺 Catption generator example](https://nlepage.github.io/catption/wasm) ([sources](https://github.com/nlepage/catption/tree/wasm))
  - [Random password generator web server](https://nlepage.github.io/random-password-please/) ([sources](https://github.com/nlepage/random-password-please) forked from [jbarham/random-password-please](https://github.com/jbarham/random-password-please))
- - [Server fallbacks, and compiling with TinyGo](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/tinygo) (runs locally; see [sources & readme](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/tinygo#README) for how to run this example)
+ - [Server fallbacks, and compiling with TinyGo](https://nlepage.github.io/go-wasm-http-server/tinygo/) (runs locally; see [sources & readme](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/tinygo#readme) for how to run this example)
 
 
 ## How?
@@ -119,7 +119,7 @@ importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.23.4/misc/wasm/wasm_exe
 // If you compiled with TinyGo then, similarly, use:
 importScripts('https://cdn.jsdelivr.net/gh/tinygo-org/tinygo@0.35.0/targets/wasm_exec.js')
 
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.0.5/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.1.0/sw.js')
 
 registerWasmHTTPListener('path/to/server.wasm')
 ```
