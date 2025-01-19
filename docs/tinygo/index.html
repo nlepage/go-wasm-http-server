@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>go-wasm-http-server tinygo demo</title>
+    <script>
+      const sw = navigator.serviceWorker
+
+      function attachServiceWorker() {
+        sw.register('sw.js')
+          .then(() => {
+            document.getElementById('wasm-status').innerText = "⚡️ Loaded - Will execute WASM locally"
+          })
+          .catch((err) => {
+            document.getElementById('wasm-status').innerText = "🛑 Error loading service worker — Check console"
+            console.error(err)
+          })
+      }
+
+      async function makeQuery() {
+        const res = await fetch('api/tiny', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
+        document.getElementById('output').innerText = await res.text()
+      }
+    </script>
+  </head>
+  <body>
+    <p>This example demonstrates that go-wasm-http-server can be compiled with <a href="https://www.tinygo.org">TinyGo</em>, producing significantly smaller WASM blobs, at the expense of <a href="https://github.com/tinygo-org/tinygo/issues/1140">at least one known bug</a>, and a <a href="https://tinygo.org/docs/reference/lang-support/stdlib/">reduced standard library</a>.</p>
+    <dl><dt>WASM HTTP Service Worker:</dt><dd id="wasm-status">☁️ Not loaded — will call server</dd></dl>
+    
+    <ol>
+      <li><button onclick="makeQuery()">Call API</button></li>
+      <li><button onclick="attachServiceWorker()">Attach the service worker</button></li>
+      <li><span>Call the API again (Step 1)</span></li>
+    </ol>
+
+    <h3>Response:</h3>
+    <pre id="output"></pre>
+  </body>
+</html>

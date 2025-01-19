@@ -14,7 +14,7 @@ type Reader struct {
 	off   int
 }
 
-var _ io.Reader = (*Reader)(nil)
+var _ io.ReadCloser = (*Reader)(nil)
 
 func NewReader(r safejs.Value) *Reader {
 	return &Reader{
@@ -82,4 +82,15 @@ func (r *Reader) Read(p []byte) (int, error) {
 	r.off += n
 
 	return n, nil
+}
+
+func (r *Reader) Close() error {
+	p, err := r.value.Call("cancel")
+	if err != nil {
+		return err
+	}
+
+	_, err = promise.Await(safejs.Unsafe(p))
+
+	return err
 }

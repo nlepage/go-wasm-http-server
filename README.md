@@ -20,6 +20,7 @@
  - [Hello example with state and keepalive](https://nlepage.github.io/go-wasm-http-server/hello-state-keepalive) ([sources](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello-state-keepalive))
  - [😺 Catption generator example](https://nlepage.github.io/catption/wasm) ([sources](https://github.com/nlepage/catption/tree/wasm))
  - [Random password generator web server](https://nlepage.github.io/random-password-please/) ([sources](https://github.com/nlepage/random-password-please) forked from [jbarham/random-password-please](https://github.com/jbarham/random-password-please))
+ - [Server fallbacks, and compiling with TinyGo](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/tinygo) (runs locally; see [sources & readme](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/tinygo#README) for how to run this example)
 
 
 ## How?
@@ -39,6 +40,7 @@ The slides are available [here](https://nlepage.github.io/go-wasm-http-talk/).
 `go-wasm-http-server` requires you to build your Go application to WebAssembly, so you need to make sure your code is compatible:
 - no C bindings
 - no System dependencies such as file system or network (database server for example)
+- For smaller WASM blobs, your code may also benefit from being compatible with, and compiled by, [TinyGo](https://tinygo.org/docs/reference/lang-support/stdlib/). See the TinyGo specific details below.
 
 ## Usage
 
@@ -87,16 +89,36 @@ You may want to use build tags as shown above (or file name suffixes) in order t
 Then build your WebAssembly binary:
 
 ```sh
+# To compile with Go
 GOOS=js GOARCH=wasm go build -o server.wasm .
+
+# To compile with TinyGo, if your code is compatible
+GOOS=js GOARCH=wasm tinygo build -o server.wasm  .
 ```
 
 ### Step 2: Create ServiceWorker file
+
+First, check the version of Go/TinyGo you compiled your wasm with:
+
+```sh
+$ go version
+go version go1.23.4 darwin/arm64
+#          ^------^
+
+$ tinygo version
+tinygo version 0.35.0 darwin/arm64 (using go version go1.23.4 and LLVM version 18.1.2)
+#              ^----^
+```
 
 Create a ServiceWorker file with the following code:
 
 📄 `sw.js`
 ```js
-importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.18.4/misc/wasm/wasm_exec.js')
+// Note the 'go.1.23.4' below, that matches the version you just found:
+importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.23.4/misc/wasm/wasm_exec.js')
+// If you compiled with TinyGo then, similarly, use:
+importScripts('https://cdn.jsdelivr.net/gh/tinygo-org/tinygo@0.35.0/targets/wasm_exec.js')
+
 importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.0.5/sw.js')
 
 registerWasmHTTPListener('path/to/server.wasm')
