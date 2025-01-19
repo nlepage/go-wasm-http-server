@@ -6,9 +6,6 @@
   <a href="https://github.com/nlepage/go-wasm-http-server/blob/master/LICENSE" target="_blank">
     <img alt="License: Apache 2.0" src="https://img.shields.io/badge/License-Apache--2.0-yellow.svg" />
   </a>
-  <a href="https://twitter.com/njblepage" target="_blank">
-    <img alt="Twitter: njblepage" src="https://img.shields.io/twitter/follow/njblepage.svg?style=social" />
-  </a>
 </p>
 
 > Embed your Go HTTP handlers in a ServiceWorker (using [WebAssembly](https://mdn.io/WebAssembly/)) and emulate an HTTP server!
@@ -187,13 +184,27 @@ An optional object containing:
 - `base` (`string`): Base path of the server, relative to the ServiceWorker's scope.
 - `args` (`string[]`): Arguments for the WebAssembly module.
 
-## Author
+## Contributors ✨
 
-👤 **Nicolas Lepage**
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
-* Website: https://nicolas.lepage.dev/
-* Twitter: [@njblepage](https://twitter.com/njblepage)
-* Github: [@nlepage](https://github.com/nlepage)
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://byjp.me/"><img src="https://avatars.githubusercontent.com/u/42999?v=4?s=100" width="100px;" alt="JP Hastings-Edrei"/><br /><sub><b>JP Hastings-Edrei</b></sub></a><br /><a href="https://github.com/nlepage/go-wasm-http-server/commits?author=jphastings" title="Code">💻</a> <a href="https://github.com/nlepage/go-wasm-http-server/commits?author=jphastings" title="Documentation">📖</a> <a href="#example-jphastings" title="Examples">💡</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 ## 🤝 Contributing
 
@@ -205,7 +216,7 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2021 [Nicolas Lepage](https://github.com/nlepage).<br />
+Copyright © 2025 [Nicolas Lepage](https://github.com/nlepage).<br />
 This project is [Apache 2.0](https://github.com/nlepage/go-wasm-http-server/blob/master/LICENSE) licensed.
 
 ***

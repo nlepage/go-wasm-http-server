@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/nlepage/go-wasm-http-server",
   "author": "Nicolas Lepage <19571875+nlepage@users.noreply.github.com>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "all-contributors-cli": "^6.26.1"
+  }
 }

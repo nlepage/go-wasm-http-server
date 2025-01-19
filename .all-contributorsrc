@@ -1,0 +1,27 @@
+{
+  "projectName": "go-wasm-http-server",
+  "projectOwner": "nlepage",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "gitmoji",
+  "contributors": [
+    {
+      "login": "jphastings",
+      "name": "JP Hastings-Edrei",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42999?v=4",
+      "profile": "https://byjp.me/",
+      "contributions": [
+        "code",
+        "doc",
+        "example"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": false
+}
