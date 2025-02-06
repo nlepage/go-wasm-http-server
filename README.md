@@ -182,7 +182,9 @@ URL string of the WebAssembly module, example: `"path/to/my-module.wasm"`.
 An optional object containing:
 
 - `base` (`string`): Base path of the server, relative to the ServiceWorker's scope.
+- `cacheName` (`string`): Name of the [Cache](https://developer.mozilla.org/en-US/docs/Web/API/Cache) to store the WebAssembly binary.
 - `args` (`string[]`): Arguments for the WebAssembly module.
+- `passthrough` (`(request: Request): boolean`): Optional callback to allow passing the request through to network.
 
 ## Contributors ✨
 
