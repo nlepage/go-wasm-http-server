@@ -20,7 +20,6 @@
  - [Random password generator web server](https://nlepage.github.io/random-password-please/) ([sources](https://github.com/nlepage/random-password-please) forked from [jbarham/random-password-please](https://github.com/jbarham/random-password-please))
  - [Server fallbacks, and compiling with TinyGo](https://nlepage.github.io/go-wasm-http-server/tinygo/) (runs locally; see [sources & readme](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/tinygo#readme) for how to run this example)
 
-
 ## How?
 
 Talk given at the Go devroom of FOSDEM 2021 explaining how `go-wasm-http-server` works:
@@ -186,6 +185,18 @@ An optional object containing:
 - `cacheName` (`string`): Name of the [Cache](https://developer.mozilla.org/en-US/docs/Web/API/Cache) to store the WebAssembly binary.
 - `args` (`string[]`): Arguments for the WebAssembly module.
 - `passthrough` (`(request: Request): boolean`): Optional callback to allow passing the request through to network.
+
+## <abbr title="Frequently Asked Questions">FAQ</abbr> ❓
+
+### Are WebSockets supported?
+
+No, WebSockets aren’t and won’t be supported, because Service Workers cannot intercept websocket connections.
+
+However [Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events), which is an alternative to WebSockets, are supported, you can find the code for an example [here](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/hello-sse) and the demo [here](https://nlepage.github.io/go-wasm-http-server/hello-sse/).
+
+### Is it compatible with TinyGo?
+
+Yes, an example and some specific information is available [here](https://github.com/nlepage/go-wasm-http-server/tree/master/docs/tinygo).
 
 ## Contributors ✨
 
