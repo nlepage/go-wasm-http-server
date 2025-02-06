@@ -1,4 +1,4 @@
-function registerWasmHTTPListener(wasm, { base, cacheName, passthroughFunc, args = [] } = {}) {
+function registerWasmHTTPListener(wasm, { base, cacheName, passthrough, args = [] } = {}) {
   let path = new URL(registration.scope).pathname
   if (base && base !== '') path = `${trimEnd(path, '/')}/${trimStart(base, '/')}`
 
@@ -17,10 +17,11 @@ function registerWasmHTTPListener(wasm, { base, cacheName, passthroughFunc, args
   WebAssembly.instantiateStreaming(source, go.importObject).then(({ instance }) => go.run(instance))
 
   addEventListener('fetch', e => {
-    if (passthroughFunc && passthroughFunc(e.request)) {
+    if (passthrough?.(e.request)) {
         e.respondWith(fetch(e.request))
         return;
     }
+
     const { pathname } = new URL(e.request.url)
     if (!pathname.startsWith(path)) return
 
