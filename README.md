@@ -116,7 +116,7 @@ importScripts('https://cdn.jsdelivr.net/gh/golang/go@go1.23.4/misc/wasm/wasm_exe
 // If you compiled with TinyGo then, similarly, use:
 importScripts('https://cdn.jsdelivr.net/gh/tinygo-org/tinygo@0.35.0/targets/wasm_exec.js')
 
-importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.2.0/sw.js')
+importScripts('https://cdn.jsdelivr.net/gh/nlepage/go-wasm-http-server@v2.2.1/sw.js')
 
 registerWasmHTTPListener('path/to/server.wasm')
 ```
