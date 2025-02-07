@@ -123,6 +123,9 @@ func (r *response) Flush() {
 
 // Close implements [io.Closer]
 func (r *response) Close() error {
+	if !r.wroteHeader {
+		r.WriteHeader(200)
+	}
 	if err := r.body.Flush(); err != nil {
 		return err
 	}
