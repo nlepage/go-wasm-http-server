@@ -22,7 +22,11 @@
 
 ## How?
 
-Talk given at the Go devroom of FOSDEM 2021 explaining how `go-wasm-http-server` works:
+Below is a talk given at the Go devroom of FOSDEM 2021 explaining how `go-wasm-http-server` works.
+
+> [!WARNING]  
+> `go-wasm-http-server` has suffered major changes since this talk, be aware that it is not accurate anymore on several aspects.
+> Please refer to the documentation below for up to date usage of `go-wasm-http-server`.
 
 [![Deploy a Go HTTP server in your browser Youtube link](https://raw.githubusercontent.com/nlepage/go-wasm-http-talk/main/youtube.png)](https://youtu.be/O2RB_8ircdE)
 
@@ -47,7 +51,7 @@ In your Go code, replace [`http.ListenAndServe()`](https://pkg.go.dev/net/http#L
 
 📄 `server.go`
 ```go
-// +build !js,!wasm
+//go:build !js && !wasm
 
 package main
 
@@ -66,7 +70,7 @@ becomes:
 
 📄 `server_js_wasm.go`
 ```go
-// +build js,wasm
+//go:build js && wasm
 
 package main
 
