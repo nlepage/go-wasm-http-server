@@ -3,47 +3,46 @@
   <head>
     <title>go-wasm-http-server hello sse demo</title>
     <script>
-      navigator.serviceWorker.register('sw.js')
-        .then(registration => {
-          const serviceWorker = registration.installing ?? registration.waiting ?? registration.active
-          if (serviceWorker.state === 'activated') {
-            document.querySelector('#open-button').disabled = false
-          } else {
-            serviceWorker.addEventListener('statechange', e => {
-              if (e.target.state === 'activated') {
-                document.querySelector('#open-button').disabled = false
-              }
-            })
-          }
-        })
-      
+      navigator.serviceWorker.register('sw.js').then((registration) => {
+        const serviceWorker = registration.installing ?? registration.waiting ?? registration.active;
+        if (serviceWorker.state === 'activated') {
+          document.querySelector('#open-button').disabled = false;
+        } else {
+          serviceWorker.addEventListener('statechange', (e) => {
+            if (e.target.state === 'activated') {
+              document.querySelector('#open-button').disabled = false;
+            }
+          });
+        }
+      });
+
       window.addEventListener('DOMContentLoaded', () => {
         let es;
 
         document.querySelector('#open-button').addEventListener('click', () => {
-          if (es && es.readyState === es.OPEN) return
-          es = new EventSource('api/events')
+          if (es && es.readyState === es.OPEN) return;
+          es = new EventSource('api/events');
           es.addEventListener('ping', (e) => {
-            const li = document.createElement('li')
-            li.textContent = `ping: data=${e.data}`
-            document.querySelector('ul').append(li)
-          })
-        })
+            const li = document.createElement('li');
+            li.textContent = `ping: data=${e.data}`;
+            document.querySelector('ul').append(li);
+          });
+        });
 
         document.querySelector('#close-button').addEventListener('click', () => {
-          if (!es) return
-          es.close() 
-        })
+          if (!es) return;
+          es.close();
+        });
 
         document.querySelector('#clear-button').addEventListener('click', () => {
-          document.querySelector('ul').innerHTML = ''
-        })
+          document.querySelector('ul').innerHTML = '';
+        });
 
         window.addEventListener('unload', () => {
-          if (!es) return
-          es.close()
-        })
-      })
+          if (!es) return;
+          es.close();
+        });
+      });
     </script>
   </head>
   <body>

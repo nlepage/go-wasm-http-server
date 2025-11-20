@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>go-wasm-http-server hello demo</title>
+    <script>
+      navigator.serviceWorker.register('sw.js');
+
+      async function hello() {
+        const api = document.querySelector('#api').value;
+
+        const res = await fetch(`${api}/hello`);
+
+        const { message } = await res.json();
+
+        alert(message);
+      }
+    </script>
+  </head>
+  <body>
+    <label for="api">API: </label
+    ><select id="api">
+      <option value="api1/1">api1.wasm first instance</option>
+      <option value="api1/2">api1.wasm second instance</option>
+      <option value="api2/1">api2.wasm first instance</option>
+      <option value="api2/2">api2.wasm second instance</option>
+    </select>
+    <button onclick="hello()">Hello</button>
+  </body>
+</html>

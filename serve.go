@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"syscall/js"
 
@@ -21,10 +22,8 @@ func Serve(handler http.Handler) (func(), error) {
 		h = http.DefaultServeMux
 	}
 
-	prefix, err := wasmhttp.GetString("path")
-	if err != nil {
-		return nil, err
-	}
+	path := os.Getenv("WASM_HTTP_PATH")
+	prefix := path
 
 	for strings.HasSuffix(prefix, "/") {
 		prefix = strings.TrimSuffix(prefix, "/")
@@ -78,7 +77,7 @@ func Serve(handler http.Handler) (func(), error) {
 		return nil, err
 	}
 
-	if _, err = wasmhttp.Call("setHandler", handlerValue); err != nil {
+	if _, err = wasmhttp.Call("setHandler", path, handlerValue); err != nil {
 		return nil, err
 	}
 

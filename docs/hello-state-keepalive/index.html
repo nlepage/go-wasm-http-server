@@ -3,30 +3,30 @@
   <head>
     <title>go-wasm-http-server hello with state and keepalive demo</title>
     <script>
-      navigator.serviceWorker.register('sw.js').then(registration => {
-        const sw = registration.active ?? registration.installing ?? registration.waiting
-        setInterval(() => sw.postMessage(null), 15000)
-      })
+      navigator.serviceWorker.register('sw.js').then((registration) => {
+        const sw = registration.active ?? registration.installing ?? registration.waiting;
+        setInterval(() => sw.postMessage(null), 15000);
+      });
 
       async function hello() {
-        const name = document.querySelector("#name").value
+        const name = document.querySelector('#name').value;
 
         const res = await fetch('api/hello', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ name })
-        })
+          body: JSON.stringify({ name }),
+        });
 
-        const { message } = await res.json()
+        const { message } = await res.json();
 
-        alert(message)
+        alert(message);
       }
     </script>
   </head>
   <body>
-    <label for="name">Name: </label><input id="name" value="World">
+    <label for="name">Name: </label><input id="name" value="World" />
     <button onclick="hello()">Hello</button>
   </body>
 </html>
