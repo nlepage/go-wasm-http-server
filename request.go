@@ -11,6 +11,10 @@ import (
 	"github.com/nlepage/go-wasm-http-server/v2/internal/safejs"
 )
 
+var (
+	navigator = safejs.Safe(js.Global().Get("navigator"))
+)
+
 // Request builds and returns the equivalent http.Request
 func Request(uvalue js.Value) (*http.Request, error) {
 	value := safejs.Safe(uvalue)
@@ -66,12 +70,20 @@ func Request(uvalue js.Value) (*http.Request, error) {
 	req := &http.Request{
 		Method:     method,
 		URL:        u,
+		Host:       u.Host,
 		Body:       bodyReader,
 		Header:     make(http.Header),
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
 		ProtoMinor: 1,
+		RequestURI: rawURL,
 	}
+
+	referer, err := value.GetString("referrer")
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Referer", referer)
 
 	headers, err := value.Get("headers")
 	if err != nil {
@@ -113,6 +125,14 @@ func Request(uvalue js.Value) (*http.Request, error) {
 		}
 
 		req.Header.Set(key, value)
+	}
+
+	if req.UserAgent() == "" {
+		userAgent, err := navigator.GetString("userAgent")
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("User-Agent", userAgent)
 	}
 
 	return req, nil
